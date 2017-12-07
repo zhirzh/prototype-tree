@@ -1,0 +1,42 @@
+{
+  "name": "prototype-tree",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhirzh/prototype-tree.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhirzh/prototype-tree/issues"
+  },
+  "homepage": "https://zhirzh.github.io/prototype-tree/build/",
+  "scripts": {
+    "build": "webpack --config webpack.config.js -p",
+    "start": "webpack --config webpack.config.js -d -w"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint": "^4.12.1",
+    "webpack": "^3.10.0"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "extends": "airbnb-base",
+    "rules": {
+      "no-param-reassign": "off",
+      "no-underscore-dangle": "off"
+    }
+  }
+}

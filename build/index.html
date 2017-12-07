@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    body {
+      background-color: #eee;
+      overflow: hidden;
+    }
+
+    .node circle {
+      cursor: pointer;
+      fill: white;
+      stroke: steelblue;
+      stroke-width: 5px;
+    }
+
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 5px;
+    }
+
+    form {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+
+    #searchFormEl {
+      margin: 10px;
+    }
+
+    #searchInputEl {
+      padding: 5px 2px;
+    }
+
+    #searchSelectEl {
+      display: none;
+    }
+
+    #searchInputEl,
+    #searchSelectEl {
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="body"></div>
+
+  <form id="searchFormEl" action="none">
+    <input id="searchInputEl" type="search" placeholder="Search" />
+    <select id="searchSelectEl" size="5"></select>
+  </form>
+
+  <script src="d3.v3.min.js"></script>
+  <script src="bundle.js"></script>
+</body>
+
+</html>

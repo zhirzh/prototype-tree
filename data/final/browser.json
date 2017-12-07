@@ -1,0 +1,2708 @@
+{
+  "name": "null",
+  "children": [
+    {
+      "name": "Object",
+      "children": [
+        {
+          "name": "Array",
+          "children": [
+            {
+              "name": "DOMRectList",
+              "children": []
+            },
+            {
+              "name": "MediaList",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "ArrayBuffer",
+          "children": []
+        },
+        {
+          "name": "AudioBuffer",
+          "children": []
+        },
+        {
+          "name": "AudioListener",
+          "children": []
+        },
+        {
+          "name": "AudioParam",
+          "children": []
+        },
+        {
+          "name": "BarProp",
+          "children": []
+        },
+        {
+          "name": "Blob",
+          "children": [
+            {
+              "name": "File",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Bluetooth",
+          "children": []
+        },
+        {
+          "name": "BluetoothCharacteristicProperties",
+          "children": []
+        },
+        {
+          "name": "BluetoothRemoteGATTDescriptor",
+          "children": []
+        },
+        {
+          "name": "BluetoothRemoteGATTServer",
+          "children": []
+        },
+        {
+          "name": "BluetoothRemoteGATTService",
+          "children": []
+        },
+        {
+          "name": "BluetoothUUID",
+          "children": []
+        },
+        {
+          "name": "Boolean",
+          "children": []
+        },
+        {
+          "name": "BudgetService",
+          "children": []
+        },
+        {
+          "name": "ByteLengthQueuingStrategy",
+          "children": []
+        },
+        {
+          "name": "CSS",
+          "children": []
+        },
+        {
+          "name": "CSSRule",
+          "children": [
+            {
+              "name": "CSSFontFaceRule",
+              "children": []
+            },
+            {
+              "name": "CSSGroupingRule",
+              "children": [
+                {
+                  "name": "CSSConditionRule",
+                  "children": [
+                    {
+                      "name": "CSSMediaRule",
+                      "children": []
+                    },
+                    {
+                      "name": "CSSSupportsRule",
+                      "children": []
+                    },
+                    {
+                      "name": "CSSMozDocumentRule",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "CSSImportRule",
+              "children": []
+            },
+            {
+              "name": "CSSKeyframeRule",
+              "children": []
+            },
+            {
+              "name": "CSSKeyframesRule",
+              "children": []
+            },
+            {
+              "name": "CSSNamespaceRule",
+              "children": []
+            },
+            {
+              "name": "CSSPageRule",
+              "children": []
+            },
+            {
+              "name": "CSSStyleRule",
+              "children": []
+            },
+            {
+              "name": "CSSViewportRule",
+              "children": []
+            },
+            {
+              "name": "CSSCounterStyleRule",
+              "children": []
+            },
+            {
+              "name": "CSSFontFeatureValuesRule",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "CSSRuleList",
+          "children": []
+        },
+        {
+          "name": "CSSStyleDeclaration",
+          "children": [
+            {
+              "name": "CSS2Properties",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "CanvasGradient",
+          "children": []
+        },
+        {
+          "name": "CanvasPattern",
+          "children": []
+        },
+        {
+          "name": "CanvasRenderingContext2D",
+          "children": []
+        },
+        {
+          "name": "CountQueuingStrategy",
+          "children": []
+        },
+        {
+          "name": "Crypto",
+          "children": []
+        },
+        {
+          "name": "CryptoKey",
+          "children": []
+        },
+        {
+          "name": "CustomElementRegistry",
+          "children": []
+        },
+        {
+          "name": "DOMError",
+          "children": []
+        },
+        {
+          "name": "DOMImplementation",
+          "children": []
+        },
+        {
+          "name": "DOMMatrixReadOnly",
+          "children": [
+            {
+              "name": "DOMMatrix",
+              "children": [
+                {
+                  "name": "WebKitCSSMatrix",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DOMParser",
+          "children": []
+        },
+        {
+          "name": "DOMPointReadOnly",
+          "children": [
+            {
+              "name": "DOMPoint",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "DOMQuad",
+          "children": []
+        },
+        {
+          "name": "DOMRectReadOnly",
+          "children": [
+            {
+              "name": "DOMRect",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "DOMStringList",
+          "children": []
+        },
+        {
+          "name": "DOMStringMap",
+          "children": []
+        },
+        {
+          "name": "DOMTokenList",
+          "children": []
+        },
+        {
+          "name": "DataTransfer",
+          "children": []
+        },
+        {
+          "name": "DataTransferItem",
+          "children": []
+        },
+        {
+          "name": "DataTransferItemList",
+          "children": []
+        },
+        {
+          "name": "DataView",
+          "children": []
+        },
+        {
+          "name": "Date",
+          "children": []
+        },
+        {
+          "name": "Error",
+          "children": [
+            {
+              "name": "DOMException",
+              "children": []
+            },
+            {
+              "name": "EvalError",
+              "children": []
+            },
+            {
+              "name": "RangeError",
+              "children": []
+            },
+            {
+              "name": "ReferenceError",
+              "children": []
+            },
+            {
+              "name": "SyntaxError",
+              "children": []
+            },
+            {
+              "name": "TypeError",
+              "children": []
+            },
+            {
+              "name": "URIError",
+              "children": []
+            },
+            {
+              "name": "InternalError",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Event",
+          "children": [
+            {
+              "name": "AnimationEvent",
+              "children": []
+            },
+            {
+              "name": "ApplicationCacheErrorEvent",
+              "children": []
+            },
+            {
+              "name": "AudioProcessingEvent",
+              "children": []
+            },
+            {
+              "name": "BeforeInstallPromptEvent",
+              "children": []
+            },
+            {
+              "name": "BeforeUnloadEvent",
+              "children": []
+            },
+            {
+              "name": "BlobEvent",
+              "children": []
+            },
+            {
+              "name": "ClipboardEvent",
+              "children": []
+            },
+            {
+              "name": "CloseEvent",
+              "children": []
+            },
+            {
+              "name": "CustomEvent",
+              "children": []
+            },
+            {
+              "name": "DeviceMotionEvent",
+              "children": []
+            },
+            {
+              "name": "DeviceOrientationEvent",
+              "children": []
+            },
+            {
+              "name": "ErrorEvent",
+              "children": []
+            },
+            {
+              "name": "FontFaceSetLoadEvent",
+              "children": []
+            },
+            {
+              "name": "GamepadEvent",
+              "children": []
+            },
+            {
+              "name": "HashChangeEvent",
+              "children": []
+            },
+            {
+              "name": "IDBVersionChangeEvent",
+              "children": []
+            },
+            {
+              "name": "MIDIConnectionEvent",
+              "children": []
+            },
+            {
+              "name": "MIDIMessageEvent",
+              "children": []
+            },
+            {
+              "name": "MediaEncryptedEvent",
+              "children": []
+            },
+            {
+              "name": "MediaKeyMessageEvent",
+              "children": []
+            },
+            {
+              "name": "MediaQueryListEvent",
+              "children": []
+            },
+            {
+              "name": "MediaStreamEvent",
+              "children": []
+            },
+            {
+              "name": "MediaStreamTrackEvent",
+              "children": []
+            },
+            {
+              "name": "MessageEvent",
+              "children": []
+            },
+            {
+              "name": "MutationEvent",
+              "children": []
+            },
+            {
+              "name": "OfflineAudioCompletionEvent",
+              "children": []
+            },
+            {
+              "name": "PageTransitionEvent",
+              "children": []
+            },
+            {
+              "name": "PaymentRequestUpdateEvent",
+              "children": []
+            },
+            {
+              "name": "PopStateEvent",
+              "children": []
+            },
+            {
+              "name": "PresentationConnectionAvailableEvent",
+              "children": []
+            },
+            {
+              "name": "PresentationConnectionCloseEvent",
+              "children": []
+            },
+            {
+              "name": "ProgressEvent",
+              "children": []
+            },
+            {
+              "name": "PromiseRejectionEvent",
+              "children": []
+            },
+            {
+              "name": "RTCDataChannelEvent",
+              "children": []
+            },
+            {
+              "name": "RTCPeerConnectionIceEvent",
+              "children": []
+            },
+            {
+              "name": "RTCTrackEvent",
+              "children": []
+            },
+            {
+              "name": "SecurityPolicyViolationEvent",
+              "children": []
+            },
+            {
+              "name": "SpeechRecognitionError",
+              "children": []
+            },
+            {
+              "name": "SpeechRecognitionEvent",
+              "children": []
+            },
+            {
+              "name": "SpeechSynthesisEvent",
+              "children": [
+                {
+                  "name": "SpeechSynthesisErrorEvent",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "StorageEvent",
+              "children": []
+            },
+            {
+              "name": "TrackEvent",
+              "children": []
+            },
+            {
+              "name": "TransitionEvent",
+              "children": []
+            },
+            {
+              "name": "UIEvent",
+              "children": [
+                {
+                  "name": "CompositionEvent",
+                  "children": []
+                },
+                {
+                  "name": "FocusEvent",
+                  "children": []
+                },
+                {
+                  "name": "InputEvent",
+                  "children": []
+                },
+                {
+                  "name": "KeyboardEvent",
+                  "children": []
+                },
+                {
+                  "name": "MouseEvent",
+                  "children": [
+                    {
+                      "name": "DragEvent",
+                      "children": []
+                    },
+                    {
+                      "name": "PointerEvent",
+                      "children": []
+                    },
+                    {
+                      "name": "WheelEvent",
+                      "children": []
+                    },
+                    {
+                      "name": "MouseScrollEvent",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "TextEvent",
+                  "children": []
+                },
+                {
+                  "name": "TouchEvent",
+                  "children": []
+                },
+                {
+                  "name": "ScrollAreaEvent",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "USBConnectionEvent",
+              "children": []
+            },
+            {
+              "name": "WebGLContextEvent",
+              "children": []
+            },
+            {
+              "name": "DeviceLightEvent",
+              "children": []
+            },
+            {
+              "name": "DeviceProximityEvent",
+              "children": []
+            },
+            {
+              "name": "MediaKeyError",
+              "children": []
+            },
+            {
+              "name": "MediaRecorderErrorEvent",
+              "children": []
+            },
+            {
+              "name": "PopupBlockedEvent",
+              "children": []
+            },
+            {
+              "name": "RTCDTMFToneChangeEvent",
+              "children": []
+            },
+            {
+              "name": "TimeEvent",
+              "children": []
+            },
+            {
+              "name": "UserProximityEvent",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "EventTarget",
+          "children": [
+            {
+              "name": "ApplicationCache",
+              "children": []
+            },
+            {
+              "name": "AudioNode",
+              "children": [
+                {
+                  "name": "AnalyserNode",
+                  "children": []
+                },
+                {
+                  "name": "AudioDestinationNode",
+                  "children": []
+                },
+                {
+                  "name": "AudioScheduledSourceNode",
+                  "children": [
+                    {
+                      "name": "AudioBufferSourceNode",
+                      "children": []
+                    },
+                    {
+                      "name": "ConstantSourceNode",
+                      "children": []
+                    },
+                    {
+                      "name": "OscillatorNode",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "BiquadFilterNode",
+                  "children": []
+                },
+                {
+                  "name": "ChannelMergerNode",
+                  "children": []
+                },
+                {
+                  "name": "ChannelSplitterNode",
+                  "children": []
+                },
+                {
+                  "name": "ConvolverNode",
+                  "children": []
+                },
+                {
+                  "name": "DelayNode",
+                  "children": []
+                },
+                {
+                  "name": "DynamicsCompressorNode",
+                  "children": []
+                },
+                {
+                  "name": "GainNode",
+                  "children": []
+                },
+                {
+                  "name": "IIRFilterNode",
+                  "children": []
+                },
+                {
+                  "name": "MediaElementAudioSourceNode",
+                  "children": []
+                },
+                {
+                  "name": "MediaStreamAudioDestinationNode",
+                  "children": []
+                },
+                {
+                  "name": "MediaStreamAudioSourceNode",
+                  "children": []
+                },
+                {
+                  "name": "PannerNode",
+                  "children": []
+                },
+                {
+                  "name": "ScriptProcessorNode",
+                  "children": []
+                },
+                {
+                  "name": "StereoPannerNode",
+                  "children": []
+                },
+                {
+                  "name": "WaveShaperNode",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "BaseAudioContext",
+              "children": [
+                {
+                  "name": "AudioContext",
+                  "children": []
+                },
+                {
+                  "name": "OfflineAudioContext",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "BatteryManager",
+              "children": []
+            },
+            {
+              "name": "BluetoothDevice",
+              "children": []
+            },
+            {
+              "name": "BluetoothRemoteGATTCharacteristic",
+              "children": []
+            },
+            {
+              "name": "BroadcastChannel",
+              "children": []
+            },
+            {
+              "name": "EventSource",
+              "children": []
+            },
+            {
+              "name": "FileReader",
+              "children": []
+            },
+            {
+              "name": "IDBDatabase",
+              "children": []
+            },
+            {
+              "name": "IDBRequest",
+              "children": [
+                {
+                  "name": "IDBOpenDBRequest",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "IDBTransaction",
+              "children": []
+            },
+            {
+              "name": "MIDIAccess",
+              "children": []
+            },
+            {
+              "name": "MIDIPort",
+              "children": [
+                {
+                  "name": "MIDIInput",
+                  "children": []
+                },
+                {
+                  "name": "MIDIOutput",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "MediaDevices",
+              "children": []
+            },
+            {
+              "name": "MediaKeySession",
+              "children": []
+            },
+            {
+              "name": "MediaQueryList",
+              "children": []
+            },
+            {
+              "name": "MediaRecorder",
+              "children": []
+            },
+            {
+              "name": "MediaSource",
+              "children": []
+            },
+            {
+              "name": "MediaStream",
+              "children": [
+                {
+                  "name": "CanvasCaptureMediaStream",
+                  "children": []
+                },
+                {
+                  "name": "LocalMediaStream",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "MediaStreamTrack",
+              "children": [
+                {
+                  "name": "CanvasCaptureMediaStreamTrack",
+                  "children": []
+                },
+                {
+                  "name": "AudioStreamTrack",
+                  "children": []
+                },
+                {
+                  "name": "VideoStreamTrack",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "MessagePort",
+              "children": []
+            },
+            {
+              "name": "NetworkInformation",
+              "children": []
+            },
+            {
+              "name": "Node",
+              "children": [
+                {
+                  "name": "Attr",
+                  "children": []
+                },
+                {
+                  "name": "CharacterData",
+                  "children": [
+                    {
+                      "name": "Comment",
+                      "children": []
+                    },
+                    {
+                      "name": "ProcessingInstruction",
+                      "children": [
+                        {
+                          "name": "XMLStylesheetProcessingInstruction",
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Text",
+                      "children": [
+                        {
+                          "name": "CDATASection",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Document",
+                  "children": [
+                    {
+                      "name": "HTMLDocument",
+                      "children": []
+                    },
+                    {
+                      "name": "XMLDocument",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "DocumentFragment",
+                  "children": [
+                    {
+                      "name": "ShadowRoot",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "DocumentType",
+                  "children": []
+                },
+                {
+                  "name": "Element",
+                  "children": [
+                    {
+                      "name": "HTMLElement",
+                      "children": [
+                        {
+                          "name": "HTMLAnchorElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLAreaElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLBRElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLBaseElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLBodyElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLButtonElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLCanvasElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLContentElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDListElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDataElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDataListElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDetailsElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDialogElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDirectoryElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLDivElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLEmbedElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLFieldSetElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLFontElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLFormElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLFrameElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLFrameSetElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLHRElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLHeadElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLHeadingElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLHtmlElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLIFrameElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLImageElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLInputElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLLIElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLLabelElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLLegendElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLLinkElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLMapElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLMarqueeElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLMediaElement",
+                          "children": [
+                            {
+                              "name": "Audio",
+                              "children": []
+                            },
+                            {
+                              "name": "HTMLAudioElement",
+                              "children": []
+                            },
+                            {
+                              "name": "HTMLVideoElement",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "HTMLMenuElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLMetaElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLMeterElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLModElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLOListElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLObjectElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLOptGroupElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLOptionElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLOutputElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLParagraphElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLParamElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLPictureElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLPreElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLProgressElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLQuoteElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLScriptElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLSelectElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLShadowElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLSlotElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLSourceElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLSpanElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLStyleElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTableCaptionElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTableCellElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTableColElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTableElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTableRowElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTableSectionElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTemplateElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTextAreaElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTimeElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTitleElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLTrackElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLUListElement",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLUnknownElement",
+                          "children": []
+                        },
+                        {
+                          "name": "Image",
+                          "children": []
+                        },
+                        {
+                          "name": "Option",
+                          "children": []
+                        },
+                        {
+                          "name": "HTMLMenuItemElement",
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "SVGElement",
+                      "children": [
+                        {
+                          "name": "SVGAnimationElement",
+                          "children": [
+                            {
+                              "name": "SVGAnimateElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGAnimateMotionElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGAnimateTransformElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGSetElement",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "SVGComponentTransferFunctionElement",
+                          "children": [
+                            {
+                              "name": "SVGFEFuncAElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGFEFuncBElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGFEFuncGElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGFEFuncRElement",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "SVGDescElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGDiscardElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEBlendElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEColorMatrixElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEComponentTransferElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFECompositeElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEConvolveMatrixElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEDiffuseLightingElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEDisplacementMapElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEDistantLightElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEDropShadowElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEFloodElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEGaussianBlurElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEImageElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEMergeElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEMergeNodeElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEMorphologyElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEOffsetElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFEPointLightElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFESpecularLightingElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFESpotLightElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFETileElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFETurbulenceElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGFilterElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGGradientElement",
+                          "children": [
+                            {
+                              "name": "SVGLinearGradientElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGRadialGradientElement",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "SVGGraphicsElement",
+                          "children": [
+                            {
+                              "name": "SVGAElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGClipPathElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGDefsElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGForeignObjectElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGGElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGGeometryElement",
+                              "children": [
+                                {
+                                  "name": "SVGCircleElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGEllipseElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGLineElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGPathElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGPolygonElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGPolylineElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGRectElement",
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "name": "SVGImageElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGSVGElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGSwitchElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGTextContentElement",
+                              "children": [
+                                {
+                                  "name": "SVGTextPathElement",
+                                  "children": []
+                                },
+                                {
+                                  "name": "SVGTextPositioningElement",
+                                  "children": [
+                                    {
+                                      "name": "SVGTSpanElement",
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "SVGTextElement",
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "SVGUseElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGCircleElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGEllipseElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGLineElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGPolygonElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGPolylineElement",
+                              "children": []
+                            },
+                            {
+                              "name": "SVGRectElement",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "SVGMPathElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGMarkerElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGMaskElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGMetadataElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGPatternElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGScriptElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGStopElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGStyleElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGSymbolElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGTitleElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGViewElement",
+                          "children": []
+                        },
+                        {
+                          "name": "SVGClipPathElement",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Notification",
+              "children": []
+            },
+            {
+              "name": "PaymentRequest",
+              "children": []
+            },
+            {
+              "name": "Performance",
+              "children": []
+            },
+            {
+              "name": "PermissionStatus",
+              "children": []
+            },
+            {
+              "name": "PresentationAvailability",
+              "children": []
+            },
+            {
+              "name": "PresentationConnection",
+              "children": []
+            },
+            {
+              "name": "PresentationConnectionList",
+              "children": []
+            },
+            {
+              "name": "PresentationRequest",
+              "children": []
+            },
+            {
+              "name": "RTCDataChannel",
+              "children": []
+            },
+            {
+              "name": "RTCPeerConnection",
+              "children": [
+                {
+                  "name": "mozRTCPeerConnection",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "RemotePlayback",
+              "children": []
+            },
+            {
+              "name": "ScreenOrientation",
+              "children": []
+            },
+            {
+              "name": "ServiceWorker",
+              "children": []
+            },
+            {
+              "name": "ServiceWorkerContainer",
+              "children": []
+            },
+            {
+              "name": "ServiceWorkerRegistration",
+              "children": []
+            },
+            {
+              "name": "SourceBuffer",
+              "children": []
+            },
+            {
+              "name": "SourceBufferList",
+              "children": []
+            },
+            {
+              "name": "SpeechRecognition",
+              "children": []
+            },
+            {
+              "name": "SpeechSynthesisUtterance",
+              "children": []
+            },
+            {
+              "name": "TextTrack",
+              "children": []
+            },
+            {
+              "name": "TextTrackCue",
+              "children": [
+                {
+                  "name": "VTTCue",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TextTrackList",
+              "children": []
+            },
+            {
+              "name": "USB",
+              "children": []
+            },
+            {
+              "name": "VisualViewport",
+              "children": []
+            },
+            {
+              "name": "WebSocket",
+              "children": []
+            },
+            {
+              "name": "WindowProperties",
+              "children": [
+                {
+                  "name": "Window",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Worker",
+              "children": []
+            },
+            {
+              "name": "XMLHttpRequestEventTarget",
+              "children": [
+                {
+                  "name": "XMLHttpRequest",
+                  "children": []
+                },
+                {
+                  "name": "XMLHttpRequestUpload",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Clipboard",
+              "children": []
+            },
+            {
+              "name": "SharedWorker",
+              "children": []
+            },
+            {
+              "name": "bound WrappedWebSocket",
+              "children": []
+            },
+            {
+              "name": "AbortSignal",
+              "children": []
+            },
+            {
+              "name": "Animation",
+              "children": []
+            },
+            {
+              "name": "DOMCursor",
+              "children": []
+            },
+            {
+              "name": "DOMRequest",
+              "children": [
+                {
+                  "name": "IDBFileRequest",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "DataChannel",
+              "children": []
+            },
+            {
+              "name": "DesktopNotification",
+              "children": []
+            },
+            {
+              "name": "FontFaceSet",
+              "children": []
+            },
+            {
+              "name": "IDBFileHandle",
+              "children": []
+            },
+            {
+              "name": "IDBMutableFile",
+              "children": []
+            },
+            {
+              "name": "OfflineResourceList",
+              "children": []
+            },
+            {
+              "name": "RTCDTMFSender",
+              "children": []
+            },
+            {
+              "name": "Screen",
+              "children": []
+            },
+            {
+              "name": "SpeechSynthesis",
+              "children": []
+            },
+            {
+              "name": "Window",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "FileList",
+          "children": []
+        },
+        {
+          "name": "FontFace",
+          "children": []
+        },
+        {
+          "name": "FormData",
+          "children": []
+        },
+        {
+          "name": "Function",
+          "children": []
+        },
+        {
+          "name": "Gamepad",
+          "children": []
+        },
+        {
+          "name": "GamepadButton",
+          "children": []
+        },
+        {
+          "name": "HTMLAllCollection",
+          "children": []
+        },
+        {
+          "name": "HTMLCollection",
+          "children": [
+            {
+              "name": "HTMLFormControlsCollection",
+              "children": []
+            },
+            {
+              "name": "HTMLOptionsCollection",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Headers",
+          "children": []
+        },
+        {
+          "name": "History",
+          "children": []
+        },
+        {
+          "name": "IDBCursor",
+          "children": [
+            {
+              "name": "IDBCursorWithValue",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "IDBFactory",
+          "children": []
+        },
+        {
+          "name": "IDBIndex",
+          "children": []
+        },
+        {
+          "name": "IDBKeyRange",
+          "children": []
+        },
+        {
+          "name": "IDBObjectStore",
+          "children": []
+        },
+        {
+          "name": "IdleDeadline",
+          "children": []
+        },
+        {
+          "name": "ImageBitmap",
+          "children": []
+        },
+        {
+          "name": "ImageBitmapRenderingContext",
+          "children": []
+        },
+        {
+          "name": "ImageCapture",
+          "children": []
+        },
+        {
+          "name": "ImageData",
+          "children": []
+        },
+        {
+          "name": "InputDeviceCapabilities",
+          "children": []
+        },
+        {
+          "name": "IntersectionObserver",
+          "children": []
+        },
+        {
+          "name": "IntersectionObserverEntry",
+          "children": []
+        },
+        {
+          "name": "Location",
+          "children": []
+        },
+        {
+          "name": "MIDIInputMap",
+          "children": []
+        },
+        {
+          "name": "MIDIOutputMap",
+          "children": []
+        },
+        {
+          "name": "Map",
+          "children": []
+        },
+        {
+          "name": "MediaDeviceInfo",
+          "children": []
+        },
+        {
+          "name": "MediaError",
+          "children": []
+        },
+        {
+          "name": "MediaKeyStatusMap",
+          "children": []
+        },
+        {
+          "name": "MediaKeySystemAccess",
+          "children": []
+        },
+        {
+          "name": "MediaList",
+          "children": []
+        },
+        {
+          "name": "MediaMetadata",
+          "children": []
+        },
+        {
+          "name": "MediaSession",
+          "children": []
+        },
+        {
+          "name": "MediaSettingsRange",
+          "children": []
+        },
+        {
+          "name": "MessageChannel",
+          "children": []
+        },
+        {
+          "name": "MimeType",
+          "children": []
+        },
+        {
+          "name": "MimeTypeArray",
+          "children": []
+        },
+        {
+          "name": "MutationObserver",
+          "children": []
+        },
+        {
+          "name": "MutationRecord",
+          "children": []
+        },
+        {
+          "name": "NamedNodeMap",
+          "children": []
+        },
+        {
+          "name": "Navigator",
+          "children": []
+        },
+        {
+          "name": "NodeIterator",
+          "children": []
+        },
+        {
+          "name": "NodeList",
+          "children": [
+            {
+              "name": "RadioNodeList",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Number",
+          "children": []
+        },
+        {
+          "name": "OverconstrainedError",
+          "children": []
+        },
+        {
+          "name": "Path2D",
+          "children": []
+        },
+        {
+          "name": "PaymentAddress",
+          "children": []
+        },
+        {
+          "name": "PaymentResponse",
+          "children": []
+        },
+        {
+          "name": "PerformanceEntry",
+          "children": [
+            {
+              "name": "PerformanceLongTaskTiming",
+              "children": []
+            },
+            {
+              "name": "PerformanceMark",
+              "children": []
+            },
+            {
+              "name": "PerformanceMeasure",
+              "children": []
+            },
+            {
+              "name": "PerformancePaintTiming",
+              "children": []
+            },
+            {
+              "name": "PerformanceResourceTiming",
+              "children": [
+                {
+                  "name": "PerformanceNavigationTiming",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TaskAttributionTiming",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "PerformanceNavigation",
+          "children": []
+        },
+        {
+          "name": "PerformanceObserver",
+          "children": []
+        },
+        {
+          "name": "PerformanceObserverEntryList",
+          "children": []
+        },
+        {
+          "name": "PerformanceTiming",
+          "children": []
+        },
+        {
+          "name": "PeriodicWave",
+          "children": []
+        },
+        {
+          "name": "Permissions",
+          "children": []
+        },
+        {
+          "name": "PhotoCapabilities",
+          "children": []
+        },
+        {
+          "name": "Plugin",
+          "children": []
+        },
+        {
+          "name": "PluginArray",
+          "children": []
+        },
+        {
+          "name": "Presentation",
+          "children": []
+        },
+        {
+          "name": "PresentationReceiver",
+          "children": []
+        },
+        {
+          "name": "Promise",
+          "children": []
+        },
+        {
+          "name": "PushManager",
+          "children": []
+        },
+        {
+          "name": "PushSubscription",
+          "children": []
+        },
+        {
+          "name": "PushSubscriptionOptions",
+          "children": []
+        },
+        {
+          "name": "RTCCertificate",
+          "children": []
+        },
+        {
+          "name": "RTCIceCandidate",
+          "children": [
+            {
+              "name": "mozRTCIceCandidate",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "RTCRtpContributingSource",
+          "children": []
+        },
+        {
+          "name": "RTCRtpReceiver",
+          "children": []
+        },
+        {
+          "name": "RTCRtpSender",
+          "children": []
+        },
+        {
+          "name": "RTCSessionDescription",
+          "children": [
+            {
+              "name": "mozRTCSessionDescription",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "RTCStatsReport",
+          "children": []
+        },
+        {
+          "name": "Range",
+          "children": []
+        },
+        {
+          "name": "ReadableStream",
+          "children": []
+        },
+        {
+          "name": "RegExp",
+          "children": []
+        },
+        {
+          "name": "Request",
+          "children": []
+        },
+        {
+          "name": "ResizeObserver",
+          "children": []
+        },
+        {
+          "name": "ResizeObserverEntry",
+          "children": []
+        },
+        {
+          "name": "Response",
+          "children": []
+        },
+        {
+          "name": "SVGAngle",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedAngle",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedBoolean",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedEnumeration",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedInteger",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedLength",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedLengthList",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedNumber",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedNumberList",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedPreserveAspectRatio",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedRect",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedString",
+          "children": []
+        },
+        {
+          "name": "SVGAnimatedTransformList",
+          "children": []
+        },
+        {
+          "name": "SVGLength",
+          "children": []
+        },
+        {
+          "name": "SVGLengthList",
+          "children": []
+        },
+        {
+          "name": "SVGMatrix",
+          "children": []
+        },
+        {
+          "name": "SVGNumber",
+          "children": []
+        },
+        {
+          "name": "SVGNumberList",
+          "children": []
+        },
+        {
+          "name": "SVGPoint",
+          "children": []
+        },
+        {
+          "name": "SVGPointList",
+          "children": []
+        },
+        {
+          "name": "SVGPreserveAspectRatio",
+          "children": []
+        },
+        {
+          "name": "SVGRect",
+          "children": []
+        },
+        {
+          "name": "SVGStringList",
+          "children": []
+        },
+        {
+          "name": "SVGTransform",
+          "children": []
+        },
+        {
+          "name": "SVGTransformList",
+          "children": []
+        },
+        {
+          "name": "SVGUnitTypes",
+          "children": []
+        },
+        {
+          "name": "Screen",
+          "children": []
+        },
+        {
+          "name": "Selection",
+          "children": []
+        },
+        {
+          "name": "Set",
+          "children": []
+        },
+        {
+          "name": "SharedArrayBuffer",
+          "children": []
+        },
+        {
+          "name": "SpeechGrammar",
+          "children": []
+        },
+        {
+          "name": "SpeechGrammarList",
+          "children": []
+        },
+        {
+          "name": "StaticRange",
+          "children": []
+        },
+        {
+          "name": "Storage",
+          "children": []
+        },
+        {
+          "name": "String",
+          "children": []
+        },
+        {
+          "name": "StyleSheet",
+          "children": [
+            {
+              "name": "CSSStyleSheet",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "StyleSheetList",
+          "children": []
+        },
+        {
+          "name": "SubtleCrypto",
+          "children": []
+        },
+        {
+          "name": "Symbol",
+          "children": []
+        },
+        {
+          "name": "SyncManager",
+          "children": []
+        },
+        {
+          "name": "TextDecoder",
+          "children": []
+        },
+        {
+          "name": "TextEncoder",
+          "children": []
+        },
+        {
+          "name": "TextMetrics",
+          "children": []
+        },
+        {
+          "name": "TextTrackCueList",
+          "children": []
+        },
+        {
+          "name": "TimeRanges",
+          "children": []
+        },
+        {
+          "name": "Touch",
+          "children": []
+        },
+        {
+          "name": "TouchList",
+          "children": []
+        },
+        {
+          "name": "TreeWalker",
+          "children": []
+        },
+        {
+          "name": "TypedArray",
+          "children": [
+            {
+              "name": "Float32Array",
+              "children": []
+            },
+            {
+              "name": "Float64Array",
+              "children": []
+            },
+            {
+              "name": "Int16Array",
+              "children": []
+            },
+            {
+              "name": "Int32Array",
+              "children": []
+            },
+            {
+              "name": "Int8Array",
+              "children": []
+            },
+            {
+              "name": "Uint16Array",
+              "children": []
+            },
+            {
+              "name": "Uint32Array",
+              "children": []
+            },
+            {
+              "name": "Uint8Array",
+              "children": []
+            },
+            {
+              "name": "Uint8ClampedArray",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "URL",
+          "children": []
+        },
+        {
+          "name": "URLSearchParams",
+          "children": []
+        },
+        {
+          "name": "USBAlternateInterface",
+          "children": []
+        },
+        {
+          "name": "USBConfiguration",
+          "children": []
+        },
+        {
+          "name": "USBDevice",
+          "children": []
+        },
+        {
+          "name": "USBEndpoint",
+          "children": []
+        },
+        {
+          "name": "USBInTransferResult",
+          "children": []
+        },
+        {
+          "name": "USBInterface",
+          "children": []
+        },
+        {
+          "name": "USBIsochronousInTransferPacket",
+          "children": []
+        },
+        {
+          "name": "USBIsochronousInTransferResult",
+          "children": []
+        },
+        {
+          "name": "USBIsochronousOutTransferPacket",
+          "children": []
+        },
+        {
+          "name": "USBIsochronousOutTransferResult",
+          "children": []
+        },
+        {
+          "name": "USBOutTransferResult",
+          "children": []
+        },
+        {
+          "name": "ValidityState",
+          "children": []
+        },
+        {
+          "name": "WeakMap",
+          "children": []
+        },
+        {
+          "name": "WeakSet",
+          "children": []
+        },
+        {
+          "name": "WebGL2RenderingContext",
+          "children": []
+        },
+        {
+          "name": "WebGLActiveInfo",
+          "children": []
+        },
+        {
+          "name": "WebGLBuffer",
+          "children": []
+        },
+        {
+          "name": "WebGLFramebuffer",
+          "children": []
+        },
+        {
+          "name": "WebGLProgram",
+          "children": []
+        },
+        {
+          "name": "WebGLQuery",
+          "children": []
+        },
+        {
+          "name": "WebGLRenderbuffer",
+          "children": []
+        },
+        {
+          "name": "WebGLRenderingContext",
+          "children": []
+        },
+        {
+          "name": "WebGLSampler",
+          "children": []
+        },
+        {
+          "name": "WebGLShader",
+          "children": []
+        },
+        {
+          "name": "WebGLShaderPrecisionFormat",
+          "children": []
+        },
+        {
+          "name": "WebGLSync",
+          "children": []
+        },
+        {
+          "name": "WebGLTexture",
+          "children": []
+        },
+        {
+          "name": "WebGLTransformFeedback",
+          "children": []
+        },
+        {
+          "name": "WebGLUniformLocation",
+          "children": []
+        },
+        {
+          "name": "WebGLVertexArrayObject",
+          "children": []
+        },
+        {
+          "name": "WritableStream",
+          "children": []
+        },
+        {
+          "name": "XMLSerializer",
+          "children": []
+        },
+        {
+          "name": "XPathEvaluator",
+          "children": []
+        },
+        {
+          "name": "XPathExpression",
+          "children": []
+        },
+        {
+          "name": "XPathResult",
+          "children": []
+        },
+        {
+          "name": "XSLTProcessor",
+          "children": []
+        },
+        {
+          "name": "Cache",
+          "children": []
+        },
+        {
+          "name": "CacheStorage",
+          "children": []
+        },
+        {
+          "name": "Credential",
+          "children": [
+            {
+              "name": "FederatedCredential",
+              "children": []
+            },
+            {
+              "name": "PasswordCredential",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "CredentialsContainer",
+          "children": []
+        },
+        {
+          "name": "MediaKeys",
+          "children": []
+        },
+        {
+          "name": "NavigationPreloadManager",
+          "children": []
+        },
+        {
+          "name": "StorageManager",
+          "children": []
+        },
+        {
+          "name": "AbortController",
+          "children": []
+        },
+        {
+          "name": "CSSValue",
+          "children": [
+            {
+              "name": "CSSPrimitiveValue",
+              "children": []
+            },
+            {
+              "name": "CSSValueList",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "CaretPosition",
+          "children": []
+        },
+        {
+          "name": "DesktopNotificationCenter",
+          "children": []
+        },
+        {
+          "name": "Directory",
+          "children": []
+        },
+        {
+          "name": "External",
+          "children": []
+        },
+        {
+          "name": "FileSystem",
+          "children": []
+        },
+        {
+          "name": "FileSystemDirectoryReader",
+          "children": []
+        },
+        {
+          "name": "FileSystemEntry",
+          "children": [
+            {
+              "name": "FileSystemDirectoryEntry",
+              "children": []
+            },
+            {
+              "name": "FileSystemFileEntry",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "GamepadHapticActuator",
+          "children": []
+        },
+        {
+          "name": "GamepadPose",
+          "children": []
+        },
+        {
+          "name": "PaintRequest",
+          "children": []
+        },
+        {
+          "name": "PaintRequestList",
+          "children": []
+        },
+        {
+          "name": "Performance",
+          "children": []
+        },
+        {
+          "name": "RGBColor",
+          "children": []
+        },
+        {
+          "name": "Rect",
+          "children": []
+        },
+        {
+          "name": "SVGPathSeg",
+          "children": [
+            {
+              "name": "SVGPathSegArcAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegArcRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegClosePath",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoCubicAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoCubicRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoCubicSmoothAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoCubicSmoothRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoQuadraticAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoQuadraticRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoQuadraticSmoothAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegCurvetoQuadraticSmoothRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegLinetoAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegLinetoHorizontalAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegLinetoHorizontalRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegLinetoRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegLinetoVerticalAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegLinetoVerticalRel",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegMovetoAbs",
+              "children": []
+            },
+            {
+              "name": "SVGPathSegMovetoRel",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "SVGPathSegList",
+          "children": []
+        },
+        {
+          "name": "SpeechSynthesisVoice",
+          "children": []
+        },
+        {
+          "name": "VideoPlaybackQuality",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

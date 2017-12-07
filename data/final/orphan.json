@@ -1,0 +1,22 @@
+{
+  "name": "null",
+  "children": [
+    {
+      "name": "Object",
+      "children": []
+    },
+    {
+      "name": "Animal",
+      "children": [
+        {
+          "name": "Human",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Bacteria",
+      "children": []
+    }
+  ]
+}

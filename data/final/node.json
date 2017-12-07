@@ -1,0 +1,472 @@
+{
+  "name": "null",
+  "children": [
+    {
+      "name": "Object",
+      "children": [
+        {
+          "name": "Function",
+          "children": []
+        },
+        {
+          "name": "Array",
+          "children": []
+        },
+        {
+          "name": "Number",
+          "children": []
+        },
+        {
+          "name": "Boolean",
+          "children": []
+        },
+        {
+          "name": "String",
+          "children": []
+        },
+        {
+          "name": "Symbol",
+          "children": []
+        },
+        {
+          "name": "Date",
+          "children": []
+        },
+        {
+          "name": "Promise",
+          "children": []
+        },
+        {
+          "name": "RegExp",
+          "children": []
+        },
+        {
+          "name": "Error",
+          "children": [
+            {
+              "name": "EvalError",
+              "children": []
+            },
+            {
+              "name": "RangeError",
+              "children": []
+            },
+            {
+              "name": "ReferenceError",
+              "children": []
+            },
+            {
+              "name": "SyntaxError",
+              "children": [
+                {
+                  "name": "Recoverable[repl]",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "TypeError",
+              "children": []
+            },
+            {
+              "name": "URIError",
+              "children": []
+            },
+            {
+              "name": "AssertionError[assert]",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "ArrayBuffer",
+          "children": []
+        },
+        {
+          "name": "TypedArray",
+          "children": [
+            {
+              "name": "Uint8Array",
+              "children": [
+                {
+                  "name": "Buffer[buffer]",
+                  "children": []
+                },
+                {
+                  "name": "SlowBuffer[buffer]",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Int8Array",
+              "children": []
+            },
+            {
+              "name": "Uint16Array",
+              "children": []
+            },
+            {
+              "name": "Int16Array",
+              "children": []
+            },
+            {
+              "name": "Uint32Array",
+              "children": []
+            },
+            {
+              "name": "Int32Array",
+              "children": []
+            },
+            {
+              "name": "Float32Array",
+              "children": []
+            },
+            {
+              "name": "Float64Array",
+              "children": []
+            },
+            {
+              "name": "Uint8ClampedArray",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "DataView",
+          "children": []
+        },
+        {
+          "name": "Map",
+          "children": []
+        },
+        {
+          "name": "Set",
+          "children": []
+        },
+        {
+          "name": "WeakMap",
+          "children": []
+        },
+        {
+          "name": "WeakSet",
+          "children": []
+        },
+        {
+          "name": "setImmediate",
+          "children": []
+        },
+        {
+          "name": "setTimeout",
+          "children": []
+        },
+        {
+          "name": "AsyncResource[async_hooks]",
+          "children": []
+        },
+        {
+          "name": "EventEmitter[events]",
+          "children": [
+            {
+              "name": "ChildProcess[child_process]",
+              "children": []
+            },
+            {
+              "name": "Worker[cluster]",
+              "children": []
+            },
+            {
+              "name": "Stream[stream]",
+              "children": [
+                {
+                  "name": "Readable[stream]",
+                  "children": [
+                    {
+                      "name": "Duplex[stream]",
+                      "children": [
+                        {
+                          "name": "Transform[stream]",
+                          "children": [
+                            {
+                              "name": "LazyTransform",
+                              "children": [
+                                {
+                                  "name": "Hash[crypto]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Hmac[crypto]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Cipher[crypto]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Cipheriv[crypto]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Decipher[crypto]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Decipheriv[crypto]",
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "name": "PassThrough[stream]",
+                              "children": []
+                            },
+                            {
+                              "name": "Zlib",
+                              "children": [
+                                {
+                                  "name": "Deflate[zlib]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Inflate[zlib]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Gzip[zlib]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Gunzip[zlib]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "DeflateRaw[zlib]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "InflateRaw[zlib]",
+                                  "children": []
+                                },
+                                {
+                                  "name": "Unzip[zlib]",
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Socket[net]",
+                          "children": [
+                            {
+                              "name": "TLSSocket[tls]",
+                              "children": []
+                            },
+                            {
+                              "name": "ReadStream[tty]",
+                              "children": []
+                            },
+                            {
+                              "name": "WriteStream[tty]",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "ReadStream[fs]",
+                      "children": []
+                    },
+                    {
+                      "name": "IncomingMessage[http]",
+                      "children": []
+                    },
+                    {
+                      "name": "Http2ServerRequest[http2]",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "Writable[stream]",
+                  "children": [
+                    {
+                      "name": "Sign[crypto]",
+                      "children": []
+                    },
+                    {
+                      "name": "Verify[crypto]",
+                      "children": []
+                    },
+                    {
+                      "name": "WriteStream[fs]",
+                      "children": []
+                    },
+                    {
+                      "name": "SyncWriteStream[fs]",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "OutgoingMessage[http]",
+                  "children": [
+                    {
+                      "name": "ClientRequest[http]",
+                      "children": []
+                    },
+                    {
+                      "name": "ServerResponse[http]",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "Http2ServerResponse[http2]",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Socket[dgram]",
+              "children": []
+            },
+            {
+              "name": "Domain[domain]",
+              "children": []
+            },
+            {
+              "name": "Agent[http]",
+              "children": [
+                {
+                  "name": "Agent[https]",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Server[net]",
+              "children": [
+                {
+                  "name": "Server[http]",
+                  "children": []
+                },
+                {
+                  "name": "Server[tls]",
+                  "children": [
+                    {
+                      "name": "Server[https]",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Interface[readline]",
+              "children": [
+                {
+                  "name": "REPLServer[repl]",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DiffieHellman[crypto]",
+          "children": []
+        },
+        {
+          "name": "DiffieHellmanGroup[crypto]",
+          "children": []
+        },
+        {
+          "name": "ECDH[crypto]",
+          "children": []
+        },
+        {
+          "name": "Certificate[crypto]",
+          "children": []
+        },
+        {
+          "name": "SecureContext[tls]",
+          "children": []
+        },
+        {
+          "name": "Resolver[dns]",
+          "children": []
+        },
+        {
+          "name": "Stats[fs]",
+          "children": []
+        },
+        {
+          "name": "Module[module]",
+          "children": []
+        },
+        {
+          "name": "PerformanceObserver[perf_hooks]",
+          "children": []
+        },
+        {
+          "name": "StringDecoder[string_decoder]",
+          "children": []
+        },
+        {
+          "name": "Url[url]",
+          "children": []
+        },
+        {
+          "name": "URL[url]",
+          "children": []
+        },
+        {
+          "name": "URLSearchParams[url]",
+          "children": []
+        },
+        {
+          "name": "TextDecoder[util]",
+          "children": []
+        },
+        {
+          "name": "TextEncoder[util]",
+          "children": []
+        },
+        {
+          "name": "Serializer",
+          "children": [
+            {
+              "name": "Serializer[v8]",
+              "children": [
+                {
+                  "name": "DefaultSerializer[v8]",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Deserializer",
+          "children": [
+            {
+              "name": "Deserializer[v8]",
+              "children": [
+                {
+                  "name": "DefaultDeserializer[v8]",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ContextifyScript[vm]",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

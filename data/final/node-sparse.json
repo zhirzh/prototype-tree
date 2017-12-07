@@ -1,0 +1,153 @@
+{
+  "name": "null",
+  "children": [
+    {
+      "name": "Object",
+      "children": [
+        {
+          "name": "Function",
+          "children": []
+        },
+        {
+          "name": "Array",
+          "children": []
+        },
+        {
+          "name": "Number",
+          "children": []
+        },
+        {
+          "name": "Boolean",
+          "children": []
+        },
+        {
+          "name": "String",
+          "children": []
+        },
+        {
+          "name": "Symbol",
+          "children": []
+        },
+        {
+          "name": "Date",
+          "children": []
+        },
+        {
+          "name": "Promise",
+          "children": []
+        },
+        {
+          "name": "RegExp",
+          "children": []
+        },
+        {
+          "name": "Error",
+          "children": [
+            {
+              "name": "EvalError",
+              "children": []
+            },
+            {
+              "name": "RangeError",
+              "children": []
+            },
+            {
+              "name": "ReferenceError",
+              "children": []
+            },
+            {
+              "name": "SyntaxError",
+              "children": []
+            },
+            {
+              "name": "TypeError",
+              "children": []
+            },
+            {
+              "name": "URIError",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "ArrayBuffer",
+          "children": []
+        },
+        {
+          "name": "TypedArray",
+          "children": [
+            {
+              "name": "Uint8Array",
+              "children": [
+                {
+                  "name": "Buffer",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Int8Array",
+              "children": []
+            },
+            {
+              "name": "Uint16Array",
+              "children": []
+            },
+            {
+              "name": "Int16Array",
+              "children": []
+            },
+            {
+              "name": "Uint32Array",
+              "children": []
+            },
+            {
+              "name": "Int32Array",
+              "children": []
+            },
+            {
+              "name": "Float32Array",
+              "children": []
+            },
+            {
+              "name": "Float64Array",
+              "children": []
+            },
+            {
+              "name": "Uint8ClampedArray",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "DataView",
+          "children": []
+        },
+        {
+          "name": "Map",
+          "children": []
+        },
+        {
+          "name": "Set",
+          "children": []
+        },
+        {
+          "name": "WeakMap",
+          "children": []
+        },
+        {
+          "name": "WeakSet",
+          "children": []
+        },
+        {
+          "name": "setImmediate",
+          "children": []
+        },
+        {
+          "name": "setTimeout",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
