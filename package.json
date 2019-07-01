@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "nodemon -w extract-ctors.ts -x 'ts-node extract-ctors.ts'"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.1",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}

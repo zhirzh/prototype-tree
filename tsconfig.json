@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+
+    "lib": ["esnext"],
+    "target": "esnext",
+
+    "strict": true, // enable "alwaysStrict", "noImplicitAny", "noImplicitThis", "strictBindCallApply", "strictFunctionTypes", "strictNullChecks", "strictPropertyInitialization"
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noStrictGenericChecks": false // enable strict generic checks
+  }
+}
