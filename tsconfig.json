@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
 
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "target": "esnext",
 
     "strict": true, // enable "alwaysStrict", "noImplicitAny", "noImplicitThis", "strictBindCallApply", "strictFunctionTypes", "strictNullChecks", "strictPropertyInitialization"
