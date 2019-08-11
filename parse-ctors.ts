@@ -24,12 +24,16 @@ class Ctor {
 }
 
 class Node {
+  static id = 0
+
+  id: number
   name: string
   children: Array<Node>
 
-  constructor(name: string) {
+  constructor(name: string, children = [] as Array<Node>) {
+    this.id = Node.id++
     this.name = name
-    this.children = []
+    this.children = children
   }
 }
 
@@ -45,6 +49,14 @@ function protoChain(x: object, name?: string): Array<string> {
   const proto = Object.getPrototypeOf(x)
 
   return protoChain(proto).concat(name || x.constructor.name)
+}
+
+function sortTree(node: Node): Node {
+  const children = node.children
+    .map(child => sortTree(child))
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  return new Node(node.name, children)
 }
 
 const blacklist = [
@@ -147,4 +159,4 @@ ctors.forEach(ctor => {
   })
 })
 
-writeFileSync('ctors.json', JSON.stringify(tree.children, null, 4))
+writeFileSync('ctors.json', JSON.stringify(sortTree(tree).children, null, 4))

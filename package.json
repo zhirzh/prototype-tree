@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "extract-ctors": "ts-node extract-ctors.ts",
+    "parse-ctors": "ts-node parse-ctors.ts",
     "start": "parcel --no-cache index.html"
   },
   "dependencies": {
