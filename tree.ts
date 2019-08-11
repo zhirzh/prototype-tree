@@ -1,6 +1,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import ctors from './ctors.json'
+import { className, not } from './utils'
 
 const circleRadius = 10
 
@@ -78,7 +79,7 @@ function render() {
     .append('text')
     .text(d => d.data.name)
     .attrs({
-      class: 'label',
+      class: d => className(['label', d.isCollapsed && 'collapsed']),
       dx: d => circleRadius * (d.isLeaf || d.isCollapsed ? 1.5 : -1.2),
       dy: circleRadius / 4,
     })
@@ -100,19 +101,28 @@ function render() {
     $node
       .insert('rect', 'text')
       .style('fill', 'white')
-      .attr('x', bbox.x - pad)
-      .attr('y', bbox.y)
-      .attr('width', bbox.width + pad * 2)
-      .attr('height', bbox.height)
+      .attrs({
+        x: bbox.x - pad,
+        y: bbox.y,
+        width: bbox.width + pad * 2,
+        height: bbox.height,
+      })
   })
 
   // add node circles
   $nodesEnter
     .append('circle')
     .attrs({
-      class: 'node',
+      class: d =>
+        className([
+          // prettier-multiline
+          'node',
+          not(d.isLeaf) && 'collapsable',
+          d.isCollapsed && 'collapsed',
+        ]),
       r: circleRadius,
     })
+    .style('stroke-width', 5)
     .on('click', d => {
       if (d.isLeaf) {
         return

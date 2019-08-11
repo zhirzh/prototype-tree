@@ -7,13 +7,24 @@
 
   circle.node {
     fill: deepskyblue;
+  }
 
+  circle.node.collapsable {
     cursor: pointer;
+  }
+
+  circle.node.collapsable.collapsed {
+    fill: whitesmoke;
+    stroke: deepskyblue;
   }
 
   text.label {
     font-family: monospace;
     font-size: 1.2rem;
+  }
+
+  text.label.collapsed {
+    font-style: italic;
   }
 </style>
 

@@ -1,17 +1,5 @@
 import { writeFileSync } from 'fs'
-
-function not(x: any) {
-  return !x
-}
-
-function isConstructor(x: any): boolean {
-  try {
-    Reflect.construct(Object, [], x)
-    return true
-  } catch {
-    return false
-  }
-}
+import { isConstructor, not } from './utils'
 
 class Ctor {
   name: string
