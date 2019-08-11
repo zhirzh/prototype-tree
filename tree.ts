@@ -11,6 +11,8 @@ declare module 'd3-hierarchy' {
     isCollapsed: boolean
 
     _children: this['children']
+    childrenCount: number
+    descendantsCount: number
   }
 }
 
@@ -75,7 +77,7 @@ function render() {
     })
 
   // add node labels
-  $nodesEnter
+  const $labels = $nodesEnter
     .append('text')
     .text(d => d.data.name)
     .attrs({
@@ -90,7 +92,13 @@ function render() {
       d3.event.stopImmediatePropagation()
     })
 
-  // add node label rects
+  // add collapsed node counts
+  $labels
+    .filter(d => d.isCollapsed)
+    .append('tspan')
+    .text(d => ` #${d.childrenCount} ##${d.descendantsCount}`)
+
+  // add node label white backgrounds
   $nodesEnter.nodes().forEach(node => {
     const pad = circleRadius / 2
 
@@ -147,8 +155,17 @@ function render() {
 }
 
 root.descendants().forEach(d => {
-  d.isLeaf = d.children === undefined
   d._children = d.children
+
+  if (d.children === undefined) {
+    d.isLeaf = true
+    d.childrenCount = 0
+    d.descendantsCount = 0
+  } else {
+    d.isLeaf = false
+    d.childrenCount = d.children.length
+    d.descendantsCount = d.descendants().length
+  }
 })
 
 const $svg = d3
