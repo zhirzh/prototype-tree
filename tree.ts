@@ -4,15 +4,22 @@ import ctors from './ctors.json'
 import { className, not } from './utils'
 
 const circleRadius = 10
+const duration = 300
 
 declare module 'd3-hierarchy' {
   interface HierarchyNode<Datum> {
     isLeaf: boolean
-    isCollapsed: boolean
 
     _children: this['children']
     childrenCount: number
     descendantsCount: number
+  }
+
+  interface HierarchyPointNode<Datum> {
+    isCollapsed: boolean
+
+    _x: number
+    _y: number
   }
 }
 
@@ -23,7 +30,9 @@ type Datum = {
 }
 
 type DatumNode = d3.HierarchyNode<Datum>
+type DatumPointLink = d3.HierarchyPointLink<Datum>
 type DatumPointNode = d3.HierarchyPointNode<Datum>
+type Transition = d3.Transition<d3.BaseType, Datum, null, undefined>
 
 const width = window.innerWidth
 const height = window.innerHeight
@@ -35,7 +44,12 @@ const linkGenerator = d3
   .x(d => d.y)
   .y(d => d.x)
 
-const zoomBehavior = d3.zoom<SVGSVGElement, Datum>().scaleExtent([0.2, 2])
+const zoomBehavior = d3
+  .zoom<SVGSVGElement, Datum>()
+  .scaleExtent([0.2, 2])
+  .on('zoom', () => {
+    $zoomPanGroup.attr('transform', d3.event.transform)
+  })
 
 const root: DatumNode = d3.hierarchy({
   id: 0,
@@ -43,14 +57,19 @@ const root: DatumNode = d3.hierarchy({
   children: ctors,
 })
 
-function render() {
+function render(source?: DatumPointNode) {
+  // @ts-ignore
+  const transition: Transition = d3.transition<Datum>().duration(duration)
+
   const tree = treeGenerator(root) as DatumPointNode
 
-  const $links = $linksGroup.selectAll<SVGPathElement, Datum>('path').data(tree.links())
+  const $links = $linksGroup
+    .selectAll<SVGPathElement, DatumPointLink>('path')
+    .data(tree.links(), d => String(d.target.data.id))
 
   const $nodes = $nodesGroup
-    .selectAll<SVGGElement, Datum>('g')
-    .data(tree.descendants(), d => String(d.id))
+    .selectAll<SVGGElement, DatumPointNode>('g')
+    .data(tree.descendants(), d => String(d.data.id))
 
   // add links
   const $linksEnter = $links
@@ -58,20 +77,62 @@ function render() {
     .append('path')
     .attrs({
       class: 'link',
-      d: linkGenerator,
+      d: () => {
+        const o = source
+          ? {
+              x: source._x,
+              y: source._y,
+            }
+          : {
+              x: tree.x,
+              y: tree.y,
+            }
+
+        return linkGenerator({
+          source: o,
+          target: o,
+        })
+      },
     })
 
   // update links
-  $links.merge($linksEnter).attr('d', linkGenerator)
+  $links
+    .merge($linksEnter)
+    .transition(transition)
+    .attr('d', linkGenerator)
 
   // remove links
-  $links.exit().remove()
+  $links
+    .exit()
+    .transition(transition)
+    .remove()
+    .attr('d', () => {
+      const o = source
+        ? {
+            x: source.x,
+            y: source.y,
+          }
+        : {
+            x: tree.x,
+            y: tree.y,
+          }
+
+      return linkGenerator({
+        source: o,
+        target: o,
+      })
+    })
 
   // add nodes
   const $nodesEnter = $nodes
     .enter()
     .append('g')
-    .attr('transform', d => `translate(${d.y},${d.x})`)
+    .attr(
+      'transform',
+      source ? `translate(${source._y}, ${source._x})` : `translate(${tree.y}, ${tree.x})`
+    )
+    .attr('fill-opacity', 0)
+    .attr('stroke-opacity', 0)
     .on('dblclick', () => {
       d3.event.stopImmediatePropagation()
     })
@@ -144,14 +205,41 @@ function render() {
         d.isCollapsed = true
       }
 
-      render()
+      const datum = d3.select<SVGCircleElement, DatumPointNode>(d3.event.target).datum()
+
+      // @ts-ignore
+      const transition: Transition = d3.transition<Datum>().duration(duration)
+
+      zoomBehavior.scaleTo($svg.transition(transition), 1)
+      zoomBehavior.translateTo($svg.transition(transition), datum.y, datum.x)
+
+      render(d)
     })
 
   // update nodes
-  $nodes.merge($nodesEnter).attr('transform', d => `translate(${d.y},${d.x})`)
+  $nodes
+    .merge($nodesEnter)
+    .transition(transition)
+    .attr('transform', d => `translate(${d.y}, ${d.x})`)
+    .attr('fill-opacity', 1)
+    .attr('stroke-opacity', 1)
 
   // remove nodes
-  $nodes.exit().remove()
+  $nodes
+    .exit()
+    .transition(transition)
+    .remove()
+    .attr(
+      'transform',
+      source ? `translate(${source.y}, ${source.x})` : `translate(${tree.y}, ${tree.x})`
+    )
+    .attr('fill-opacity', 0)
+    .attr('stroke-opacity', 0)
+
+  tree.each(d => {
+    d._x = d.x
+    d._y = d.y
+  })
 }
 
 root.descendants().forEach(d => {
@@ -181,12 +269,7 @@ const $zoomPanGroup = $svg.append('g')
 const $linksGroup = $zoomPanGroup.append('g')
 const $nodesGroup = $zoomPanGroup.append('g')
 
-$svg
-  .call(
-    zoomBehavior.on('zoom', () => {
-      $zoomPanGroup.attr('transform', d3.event.transform)
-    })
-  )
-  .call(zoomBehavior.transform, d3.zoomIdentity.translate(width / 10, height / 2))
+zoomBehavior($svg)
+zoomBehavior.translateBy($svg, 100 + width / 10, height / 2)
 
 render()
