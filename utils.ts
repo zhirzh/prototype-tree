@@ -10,7 +10,3 @@ export function isConstructor(x: any): boolean {
     return false
   }
 }
-
-export function className(classes: Array<string | false>) {
-  return classes.filter(Boolean).join(' ')
-}
