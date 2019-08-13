@@ -86,7 +86,7 @@ function render(base: DatumNode) {
   // links
   const $links = $linksGroup
     .selectAll<Path, DatumLink>('path')
-    .data(root.links(), d => String(d.target.data.id))
+    .data(root.links().slice(2), d => String(d.target.data.id))
 
   $links
     .enter()
@@ -131,9 +131,13 @@ function render(base: DatumNode) {
     .remove()
 
   // nodes
-  const $nodes = $nodesGroup
-    .selectAll<G, DatumNode>('g')
-    .data(root.descendants().reverse(), d => String(d.data.id))
+  const $nodes = $nodesGroup.selectAll<G, DatumNode>('g').data(
+    root
+      .descendants()
+      .slice(1)
+      .reverse(),
+    d => String(d.data.id)
+  )
 
   // nodes@enter
   const $nodesEnter = $nodes
@@ -234,7 +238,7 @@ function render(base: DatumNode) {
       x: bbox.x - pad,
       y: bbox.y,
       width: bbox.width + 2 * pad,
-      height: bbox.height,
+      height: bbox.height + 4,
     })
   })
 
@@ -300,7 +304,7 @@ const $linksGroup = $zoomPanGroup.append<G>('g')
 const $nodesGroup = $zoomPanGroup.append<G>('g')
 
 zoomBehavior($svg)
-zoomBehavior.translateBy($svg, 100 + 0.1 * width, 0.5 * height)
+zoomBehavior.translateBy($svg, 0, 0.5 * height)
 
 render(root)
 
