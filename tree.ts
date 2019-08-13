@@ -6,9 +6,8 @@ import { not } from './utils'
 // module augmentation
 declare module 'd3-hierarchy' {
   interface HierarchyNode<Datum> {
-    isLeaf: boolean
-
     _children: this['children']
+    isLeaf: boolean
     totalDescendants: number
   }
 
@@ -115,11 +114,14 @@ function render(base: DatumNode) {
     })
 
   $links
-    .exit()
+    .exit<DatumLink>()
     .transition(transition)
     .attrs({
-      d: () => {
-        const o = { x: base.x, y: base.y } as DatumNode
+      d: d => {
+        const ancestor = d.source.ancestors().find(a => a.isCollapsed()) || root
+
+        const o = { x: ancestor.x, y: ancestor.y } as DatumNode
+
         return linkGenerator({ source: o, target: o })
       },
     })
@@ -174,23 +176,28 @@ function render(base: DatumNode) {
       'stroke-width': circleRadius / 2,
     })
     .on('click', d => {
-      if (not(d.isLeaf)) {
-        // save positions of next base node
-        d._x = d.x
-        d._y = d.y
-
-        // update children
+      if (d3.event.shiftKey && d.parent && d.parent.children) {
+        d.parent.children.forEach(child => {
+          child.children = undefined
+        })
+      } else {
+        // toggle children
         d.children = d.isCollapsed() ? d._children : undefined
       }
 
+      // save positions of next base node
+      d._x = d.x
+      d._y = d.y
+
+      render(d)
+
+      // bring base node into focus
       const datum = d3.select<Circle, DatumNode>(d3.event.target).datum()
       const transition: Transition = d3.transition<Datum>().duration(2 * duration)
       zoomBehavior.transform(
         $svg.transition(transition),
         d3.zoomIdentity.translate(0.5 * width - datum.y, 0.5 * height - datum.x)
       )
-
-      render(d)
     })
 
   // nodes@enter+update
@@ -239,10 +246,14 @@ function render(base: DatumNode) {
 
   // nodes@exit
   $nodes
-    .exit()
+    .exit<DatumNode>()
     .transition(transition)
     .attrs({
-      transform: `translate(${base.y}, ${base.x})`,
+      transform: d => {
+        const ancestor = d.ancestors().find(a => a.isCollapsed()) || root
+
+        return `translate(${ancestor.y}, ${ancestor.x})`
+      },
     })
     .styles({
       ...hiddenStyles,
