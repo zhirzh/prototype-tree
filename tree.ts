@@ -41,10 +41,21 @@ type SVG = SVGSVGElement
 type Text = SVGTextElement
 
 // controls
-const circleRadius = 10
+const circleRadius = 8
+const fontSize = 17
 const duration = 300
-const nodeSize: NumberPair = [circleRadius * 3, 300]
+const nodeSize: NumberPair = [4 * circleRadius, 300]
 const scaleExtent: NumberPair = [0.2, 2]
+
+const hiddenStyles = {
+  'fill-opacity': 0,
+  'stroke-opacity': 0,
+}
+
+const visibleStyles = {
+  'fill-opacity': 1,
+  'stroke-opacity': 1,
+}
 
 const width = window.innerWidth
 const height = window.innerHeight
@@ -62,7 +73,9 @@ const zoomBehavior = d3
   .zoom<SVG, DatumNode>()
   .scaleExtent(scaleExtent)
   .on('zoom', () => {
-    $zoomPanGroup.attr('transform', d3.event.transform)
+    $zoomPanGroup.attrs({
+      transform: d3.event.transform,
+    })
   })
 
 // render tree
@@ -79,25 +92,39 @@ function render(base: DatumNode) {
   $links
     .enter()
     .append<Path>('path')
-    .attr('d', () => {
-      const o = { x: base._x, y: base._y } as DatumNode
-      return linkGenerator({ source: o, target: o })
+    .attrs({
+      d: () => {
+        const o = { x: base._x, y: base._y } as DatumNode
+        return linkGenerator({ source: o, target: o })
+      },
     })
     .styles({
+      ...hiddenStyles,
+
       fill: 'none',
-      stroke: 'lightslategray',
+      stroke: 'lightgray',
       'stroke-width': 2,
     })
     .merge($links)
     .transition(transition)
-    .attr('d', linkGenerator)
+    .attrs({
+      d: linkGenerator,
+    })
+    .styles({
+      ...visibleStyles,
+    })
 
   $links
     .exit()
     .transition(transition)
-    .attr('d', () => {
-      const o = { x: base.x, y: base.y } as DatumNode
-      return linkGenerator({ source: o, target: o })
+    .attrs({
+      d: () => {
+        const o = { x: base.x, y: base.y } as DatumNode
+        return linkGenerator({ source: o, target: o })
+      },
+    })
+    .styles({
+      ...hiddenStyles,
     })
     .remove()
 
@@ -110,7 +137,15 @@ function render(base: DatumNode) {
   const $nodesEnter = $nodes
     .enter()
     .append<G>('g')
-    .attr('transform', `translate(${base._y}, ${base._x})`)
+    .attrs({
+      transform: `translate(${base._y}, ${base._x})`,
+    })
+    .styles({
+      ...hiddenStyles,
+    })
+    .on('dblclick', () => {
+      d3.event.stopImmediatePropagation()
+    })
 
   // nodes@enter#labelboxes
   $nodesEnter.append<Rect>('rect').styles({
@@ -120,16 +155,20 @@ function render(base: DatumNode) {
   // nodes@enter#labels
   $nodesEnter
     .append<Text>('text')
-    .attr('dy', 5)
+    .attrs({
+      dy: 5,
+    })
     .styles({
       'font-family': 'monospace',
-      'font-size': 16,
+      'font-size': fontSize,
     })
 
   // nodes@enter#circles
   $nodesEnter
     .append<Circle>('circle')
-    .attr('r', circleRadius)
+    .attrs({
+      r: circleRadius,
+    })
     .styles({
       cursor: 'pointer',
       'stroke-width': 5,
@@ -140,17 +179,12 @@ function render(base: DatumNode) {
         d._x = d.x
         d._y = d.y
 
-        if (d.isCollapsed()) {
-          d.children = d._children
-        } else {
-          d.children = undefined
-        }
+        // update children
+        d.children = d.isCollapsed() ? d._children : undefined
       }
 
       const datum = d3.select<Circle, DatumNode>(d3.event.target).datum()
-
-      const transition: Transition = d3.transition<Datum>().duration(duration)
-
+      const transition: Transition = d3.transition<Datum>().duration(2 * duration)
       zoomBehavior.transform(
         $svg.transition(transition),
         d3.zoomIdentity.translate(0.5 * width - datum.y, 0.5 * height - datum.x)
@@ -162,13 +196,22 @@ function render(base: DatumNode) {
   // nodes@enter+update
   const $nodesEnterUpdate = $nodesEnter.merge($nodes)
 
-  $nodesEnterUpdate.transition(transition).attr('transform', d => `translate(${d.y}, ${d.x})`)
+  $nodesEnterUpdate
+    .transition(transition)
+    .attrs({
+      transform: d => `translate(${d.y}, ${d.x})`,
+    })
+    .styles({
+      ...visibleStyles,
+    })
 
   // nodes@enter+update#labels
   $nodesEnterUpdate
     .selectAll<Text, DatumNode>('text')
     .text(d => d.data.name + (d.isCollapsed() ? ` #${d.totalDescendants}` : ''))
-    .attr('dx', d => (circleRadius + pad) * (d.isLeaf || d.isCollapsed() ? 1 : -1))
+    .attrs({
+      dx: d => (circleRadius + pad) * (d.isLeaf || d.isCollapsed() ? 1 : -1),
+    })
     .styles({
       'font-style': d => (d.isCollapsed() ? 'italic' : 'normal'),
       'text-anchor': d => (d.isLeaf || d.isCollapsed() ? 'start' : 'end'),
@@ -198,7 +241,12 @@ function render(base: DatumNode) {
   $nodes
     .exit()
     .transition(transition)
-    .attr('transform', `translate(${base.y}, ${base.x})`)
+    .attrs({
+      transform: `translate(${base.y}, ${base.x})`,
+    })
+    .styles({
+      ...hiddenStyles,
+    })
     .remove()
 }
 
@@ -230,8 +278,10 @@ root.descendants().forEach(d => {
 const $svg = d3
   .select<HTMLDivElement, DatumNode>('#root')
   .append<SVG>('svg')
-  .attr('width', width)
-  .attr('height', height)
+  .attrs({
+    width,
+    height,
+  })
 
 const $zoomPanGroup = $svg.append<G>('g')
 
