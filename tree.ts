@@ -57,9 +57,9 @@ const visibleStyles = {
   'stroke-opacity': 1,
 }
 
-const width = window.innerWidth
-const height = window.innerHeight
 const pad = 0.5 * circleRadius
+let width = window.innerWidth
+let height = window.innerHeight
 
 // d3 generators
 const treeGenerator = d3.tree<Datum>().nodeSize(nodeSize)
@@ -171,7 +171,7 @@ function render(base: DatumNode) {
     })
     .styles({
       cursor: 'pointer',
-      'stroke-width': 5,
+      'stroke-width': circleRadius / 2,
     })
     .on('click', d => {
       if (not(d.isLeaf)) {
@@ -289,6 +289,18 @@ const $linksGroup = $zoomPanGroup.append<G>('g')
 const $nodesGroup = $zoomPanGroup.append<G>('g')
 
 zoomBehavior($svg)
-zoomBehavior.translateBy($svg, 100 + width / 10, 0.5 * height)
+zoomBehavior.translateBy($svg, 100 + 0.1 * width, 0.5 * height)
 
 render(root)
+
+window.addEventListener('resize', () => {
+  width = window.innerWidth
+  height = window.innerHeight
+
+  $svg.attrs({
+    width,
+    height,
+  })
+
+  render(root)
+})
