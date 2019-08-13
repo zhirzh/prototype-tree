@@ -46,16 +46,6 @@ const duration = 300
 const nodeSize: NumberPair = [4 * circleRadius, 300]
 const scaleExtent: NumberPair = [0.2, 2]
 
-const hiddenStyles = {
-  'fill-opacity': 0,
-  'stroke-opacity': 0,
-}
-
-const visibleStyles = {
-  'fill-opacity': 1,
-  'stroke-opacity': 1,
-}
-
 const pad = 0.5 * circleRadius
 let width = window.innerWidth
 let height = window.innerHeight
@@ -98,8 +88,7 @@ function render(base: DatumNode) {
       },
     })
     .styles({
-      ...hiddenStyles,
-
+      opacity: 0,
       fill: 'none',
       stroke: 'lightgray',
       'stroke-width': 2,
@@ -110,7 +99,7 @@ function render(base: DatumNode) {
       d: linkGenerator,
     })
     .styles({
-      ...visibleStyles,
+      opacity: 1,
     })
 
   $links
@@ -126,7 +115,7 @@ function render(base: DatumNode) {
       },
     })
     .styles({
-      ...hiddenStyles,
+      opacity: 0,
     })
     .remove()
 
@@ -147,7 +136,7 @@ function render(base: DatumNode) {
       transform: `translate(${base._y}, ${base._x})`,
     })
     .styles({
-      ...hiddenStyles,
+      opacity: 0,
     })
     .on('dblclick', () => {
       d3.event.stopImmediatePropagation()
@@ -155,7 +144,8 @@ function render(base: DatumNode) {
 
   // nodes@enter#labelboxes
   $nodesEnter.append<Rect>('rect').styles({
-    fill: 'white',
+    fill: 'whitesmoke',
+    opacity: 0.6,
   })
 
   // nodes@enter#labels
@@ -213,7 +203,7 @@ function render(base: DatumNode) {
       transform: d => `translate(${d.y}, ${d.x})`,
     })
     .styles({
-      ...visibleStyles,
+      opacity: 1,
     })
 
   // nodes@enter+update#labels
@@ -238,7 +228,7 @@ function render(base: DatumNode) {
       x: bbox.x - pad,
       y: bbox.y,
       width: bbox.width + 2 * pad,
-      height: bbox.height + 4,
+      height: bbox.height + 3,
     })
   })
 
@@ -260,7 +250,7 @@ function render(base: DatumNode) {
       },
     })
     .styles({
-      ...hiddenStyles,
+      opacity: 0,
     })
     .remove()
 }
