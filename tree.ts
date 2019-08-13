@@ -158,6 +158,9 @@ function render(base: DatumNode) {
       'font-family': 'monospace',
       'font-size': fontSize,
     })
+    .on('mousedown', () => {
+      d3.event.stopImmediatePropagation()
+    })
 
   // nodes@enter#circles
   $nodesEnter
@@ -286,6 +289,13 @@ const $svg = d3
   .attrs({
     width,
     height,
+  })
+  .on('mousedown', () => {
+    const selection = window.getSelection()
+
+    if (selection) {
+      selection.removeAllRanges()
+    }
   })
 
 const $zoomPanGroup = $svg.append<G>('g')
