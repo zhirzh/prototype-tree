@@ -96,10 +96,18 @@ export function sortTree(node: Tree) {
   })
 }
 
-export function parseModule(name: string | undefined, blacklist: Array<RegExp>) {
-  const mod = name === undefined ? global : require(name)
+export function parseModule(mod: object, blacklist: Array<RegExp>): void
+export function parseModule(name: string, mod: object, blacklist: Array<RegExp>): void
+export function parseModule(...args: any) {
+  if (args.length === 2) {
+    const [mod, blacklist] = args
 
-  const path = name === undefined ? '' : name + '::'
+    parse(mod, '', blacklist)
+  }
 
-  parse(mod, path, blacklist)
+  if (args.length === 3) {
+    const [name, mod, blacklist] = args
+
+    parse(mod, name + '::', blacklist)
+  }
 }

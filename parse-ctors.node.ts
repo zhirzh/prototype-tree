@@ -20,10 +20,10 @@ const blacklist = [
   /^_/,
 ]
 
-parseModule(undefined, blacklist)
+parseModule(global, blacklist)
 
 require('module').builtinModules.forEach((modName: string) => {
-  parseModule(modName, blacklist)
+  parseModule(modName, require(modName), blacklist)
 })
 
 trees.forEach(tree => {

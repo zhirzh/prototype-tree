@@ -1,4 +1,4 @@
-export function not(x: any) {
+export function not(x: any): boolean {
   return !x
 }
 

@@ -1,11 +1,8 @@
-import { writeFileSync } from 'fs'
 import { parseModule, pruneTree, sortTree, trees } from './parse-ctors'
 
 const blacklist = [
-  // node globals
-  /^queueMicrotask$/,
-  /^console\.Console$/,
-  /^Buffer$/,
+  // iframe parent
+  /^parent\./,
 
   // timer methods
   /^(set|clear)(Immediate|Interval|Timeout)$/,
@@ -17,11 +14,13 @@ const blacklist = [
   /(::|\.)(?!null)(_|[a-z])/,
 ]
 
-parseModule(global, blacklist)
+export function parse(global: object) {
+  parseModule(global, blacklist)
 
-trees.forEach(tree => {
-  pruneTree(tree, ['ctor', 'depth'])
-  sortTree(tree)
-})
+  trees.forEach(tree => {
+    pruneTree(tree, ['ctor', 'depth'])
+    sortTree(tree)
+  })
 
-writeFileSync('ctors.core.json', JSON.stringify(trees, null, 4))
+  return trees
+}

@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
+import { parse } from './parse-ctors.web'
 import { not } from './utils'
 
 // module augmentation
@@ -41,7 +42,7 @@ type Text = SVGTextElement
 const circleRadius = 8
 const fontSize = 17
 const duration = 300
-const nodeSize: NumberPair = [5 * circleRadius, 300]
+const nodeSize: NumberPair = [4.5 * circleRadius, 300]
 const scaleExtent: NumberPair = [0.2, 2]
 
 const pad = 0.5 * circleRadius
@@ -64,6 +65,21 @@ const zoomBehavior = d3
       transform: d3.event.transform,
     })
   })
+
+// load ctors from anonymous iframe
+function loadCtors(): Promise<Array<Datum>> {
+  const mode = new URLSearchParams(location.search).get('mode') || 'core'
+
+  if (mode === 'browser') {
+    const iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    document.body.append(iframe)
+
+    return Promise.resolve(parse(iframe.contentWindow!.window))
+  }
+
+  return d3.json(`./ctors.${mode}.json`)
+}
 
 // render tree
 function render(base: DatumNode) {
@@ -278,9 +294,7 @@ zoomBehavior.translateBy($svg, 0, 0.5 * height)
 // root node
 let root: DatumNode
 
-const mode = new URLSearchParams(location.search).get('mode') || 'core'
-
-d3.json(`./ctors.${mode}.json`).then(ctors => {
+loadCtors().then(ctors => {
   root = treeGenerator(
     d3.hierarchy({
       path: 'ROOT',
@@ -302,7 +316,7 @@ d3.json(`./ctors.${mode}.json`).then(ctors => {
 
     d.isLeaf = d._children === undefined
 
-    d.totalDescendants = d.isLeaf ? 0 : d.descendants().length
+    d.totalDescendants = d.isLeaf ? 0 : d.descendants().length - 1
 
     d.isCollapsed = () => not(d._children === d.children)
   })
