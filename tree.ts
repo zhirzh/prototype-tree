@@ -1,6 +1,5 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
-import ctors from './ctors.json'
 import { not } from './utils'
 
 // module augmentation
@@ -21,8 +20,7 @@ declare module 'd3-hierarchy' {
 
 // domain types
 type Datum = {
-  id: number
-  name: string
+  path: string
   children: Array<Datum>
 }
 
@@ -43,7 +41,7 @@ type Text = SVGTextElement
 const circleRadius = 8
 const fontSize = 17
 const duration = 300
-const nodeSize: NumberPair = [4 * circleRadius, 300]
+const nodeSize: NumberPair = [5 * circleRadius, 300]
 const scaleExtent: NumberPair = [0.2, 2]
 
 const pad = 0.5 * circleRadius
@@ -76,7 +74,7 @@ function render(base: DatumNode) {
   // links
   const $links = $linksGroup
     .selectAll<Path, DatumLink>('path')
-    .data(root.links().slice(2), d => String(d.target.data.id))
+    .data(root.links().slice(2), d => String(d.target.id))
 
   $links
     .enter()
@@ -120,13 +118,9 @@ function render(base: DatumNode) {
     .remove()
 
   // nodes
-  const $nodes = $nodesGroup.selectAll<G, DatumNode>('g').data(
-    root
-      .descendants()
-      .slice(1)
-      .reverse(),
-    d => String(d.data.id)
-  )
+  const $nodes = $nodesGroup
+    .selectAll<G, DatumNode>('g')
+    .data(root.descendants().slice(1), d => String(d.id))
 
   // nodes@enter
   const $nodesEnter = $nodes
@@ -145,14 +139,14 @@ function render(base: DatumNode) {
   // nodes@enter#labelboxes
   $nodesEnter.append<Rect>('rect').styles({
     fill: 'whitesmoke',
-    opacity: 0.6,
+    opacity: 0.7,
   })
 
   // nodes@enter#labels
   $nodesEnter
     .append<Text>('text')
     .attrs({
-      dy: 5,
+      dy: 4,
     })
     .styles({
       'font-family': 'monospace',
@@ -212,7 +206,7 @@ function render(base: DatumNode) {
   // nodes@enter+update#labels
   $nodesEnterUpdate
     .selectAll<Text, DatumNode>('text')
-    .text(d => d.data.name + (d.isCollapsed() ? ` #${d.totalDescendants}` : ''))
+    .text(d => d.data.path + (d.isCollapsed() ? ` #${d.totalDescendants}` : ''))
     .attrs({
       dx: d => (circleRadius + pad) * (d.isLeaf || d.isCollapsed() ? 1 : -1),
     })
@@ -258,31 +252,6 @@ function render(base: DatumNode) {
     .remove()
 }
 
-// root node
-const root: DatumNode = treeGenerator(
-  d3.hierarchy({
-    id: 0,
-    name: 'ROOT',
-    children: ctors,
-  })
-)
-
-// save positions of root node as next base node
-root._x = 0
-root._y = 0
-
-// root node
-root.descendants().forEach(d => {
-  // save children for recovering collapsed nodes
-  d._children = d.children
-
-  d.isLeaf = d._children === undefined
-
-  d.totalDescendants = d.isLeaf ? 0 : d.descendants().length
-
-  d.isCollapsed = () => not(d._children === d.children)
-})
-
 const $svg = d3
   .select<HTMLDivElement, DatumNode>('#root')
   .append<SVG>('svg')
@@ -306,16 +275,49 @@ const $nodesGroup = $zoomPanGroup.append<G>('g')
 zoomBehavior($svg)
 zoomBehavior.translateBy($svg, 0, 0.5 * height)
 
-render(root)
+// root node
+let root: DatumNode
 
-window.addEventListener('resize', () => {
-  width = window.innerWidth
-  height = window.innerHeight
+const mode = new URLSearchParams(location.search).get('mode') || 'core'
 
-  $svg.attrs({
-    width,
-    height,
+d3.json(`./ctors.${mode}.json`).then(ctors => {
+  root = treeGenerator(
+    d3.hierarchy({
+      path: 'ROOT',
+      children: ctors,
+    })
+  )
+
+  // save positions of root node as next base node
+  root._x = 0
+  root._y = 0
+
+  // root node
+  root.descendants().forEach((d, i) => {
+    // @ts-ignore
+    d.id = i
+
+    // save children for recovering collapsed nodes
+    d._children = d.children
+
+    d.isLeaf = d._children === undefined
+
+    d.totalDescendants = d.isLeaf ? 0 : d.descendants().length
+
+    d.isCollapsed = () => not(d._children === d.children)
   })
 
   render(root)
+
+  window.addEventListener('resize', () => {
+    width = window.innerWidth
+    height = window.innerHeight
+
+    $svg.attrs({
+      width,
+      height,
+    })
+
+    render(root)
+  })
 })

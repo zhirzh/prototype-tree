@@ -1,150 +1,105 @@
-import { writeFileSync } from 'fs'
 import { isConstructor, not } from './utils'
 
-class Ctor {
-  name: string
-  prototype: any
+type Ctor = Function | null
 
-  constructor(constructor: Function, name?: string) {
-    this.name = name || constructor.name
-    this.prototype = constructor.prototype
-  }
+class Tree {
+  constructor(
+    public ctor: Ctor,
+    public path: string,
+    public depth: number,
+    public children: Array<Tree> = []
+  ) {}
 }
 
-class Node {
-  static id = 0
+export const trees: Array<Tree> = []
 
-  id: number
-  name: string
-  children: Array<Node>
+const visitedScopes = new Set()
 
-  constructor(name: string, children = [] as Array<Node>) {
-    this.id = Node.id++
-    this.name = name
-    this.children = children
-  }
-}
+function ctorChain(ctor: Function): Array<Ctor> {
+  const prototype = ctor.prototype
 
-function protoChain(x: object, name?: string): Array<string> {
-  if (x === undefined) {
-    return ['Proxy']
+  // Proxy
+  if (prototype === undefined) {
+    return [ctor]
   }
 
-  if (x === null) {
-    return ['null']
+  const proto = Object.getPrototypeOf(prototype)
+
+  // Object
+  // Object.create(null)
+  if (proto === null) {
+    return [null, ctor]
   }
 
-  const proto = Object.getPrototypeOf(x)
-
-  return protoChain(proto).concat(name || x.constructor.name)
+  return ctorChain(proto.constructor).concat(ctor)
 }
 
-function sortTree(node: Node): Node {
-  const children = node.children
-    .map(child => sortTree(child))
-    .sort((a, b) => a.name.localeCompare(b.name))
+function parse(scope: any, basePath: string, blacklist: Array<RegExp>) {
+  if (scope === null || scope === undefined) {
+    return
+  }
 
-  return new Node(node.name, children)
+  if (visitedScopes.has(scope)) {
+    return
+  }
+
+  visitedScopes.add(scope)
+
+  Object.getOwnPropertyNames(scope)
+    .filter(k => not(['prototype', 'constructor'].includes(k)))
+    .forEach(k => {
+      const x = scope[k]
+
+      if (isConstructor(x)) {
+        let nodes = trees
+
+        ctorChain(x).forEach((ctor, depth) => {
+          const name = ctor === null ? 'null' : ctor.name
+          const path = basePath + name
+
+          if (blacklist.some(b => b.test(path))) {
+            return
+          }
+
+          let node = nodes.find(node => node.ctor === ctor)
+
+          if (node === undefined) {
+            node = new Tree(ctor, path, depth)
+            nodes.push(node)
+          } else if (name === k || depth < node.depth) {
+            node.path = path
+          }
+
+          nodes = node.children
+        })
+      }
+
+      parse(x, basePath + k + '.', blacklist)
+    })
 }
 
-const blacklist = [
-  'Buffer',
-
-  'console',
-  'global',
-  'GLOBAL',
-  'globalThis',
-  'process',
-  'root',
-
-  'WebAssembly/compile',
-  'WebAssembly/instantiate',
-  'WebAssembly/validate',
-
-  'clearImmediate',
-  'clearInterval',
-  'clearTimeout',
-  'setImmediate',
-  'setInterval',
-  'setTimeout',
-
-  'queueMicrotask',
-]
-
-const globalCtors = Object.getOwnPropertyNames(global)
-  .filter(k => {
-    // @ts-ignore
-    const x = global[k]
-
-    return not(blacklist.includes(k)) && isConstructor(x)
-  })
-  .map(k => {
-    // @ts-ignore
-    const constructor = global[k]
-
-    return new Ctor(constructor)
+export function pruneTree(node: Tree, keys: Array<keyof Tree>) {
+  keys.forEach(k => {
+    delete node[k]
   })
 
-const scopedCtors = Object.getOwnPropertyNames(global)
-  .filter(k => {
-    // @ts-ignore
-    const x = global[k]
-
-    return not(blacklist.includes(k)) && typeof x === 'object'
+  node.children.forEach(child => {
+    pruneTree(child, keys)
   })
-  .map(k => {
-    // @ts-ignore
-    const x = global[k]
+}
 
-    return Object.getOwnPropertyNames(x)
-      .filter(kk => {
-        // @ts-ignore
-        const xx = x[kk]
+export function sortTree(node: Tree) {
+  node.children.sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0))
 
-        const name = `${k}/${kk}`
-
-        return not(blacklist.includes(name)) && isConstructor(xx)
-      })
-      .map(kk => {
-        const xx = x[kk]
-
-        const name = `${k}/${kk}`
-
-        return new Ctor(xx, name)
-      })
+  node.children.forEach(child => {
+    sortTree(child)
   })
-  .flat()
+}
 
-const hiddenCtors = [
-  async function() {},
+export function parseModule(name: string | undefined, blacklist: Array<RegExp>) {
+  const mod = name === undefined ? global : require(name)
 
-  // @ts-ignore
-  function*() {},
+  const path = name === undefined ? '' : name + '::'
 
-  // @ts-ignore
-  async function*() {},
-].map(x => new Ctor(x.constructor))
-
-const tree = new Node('ROOT')
-
-const ctors = ([] as Array<Ctor>)
-  .concat(globalCtors)
-  .concat(scopedCtors)
-  .concat(hiddenCtors)
-
-ctors.forEach(ctor => {
-  let nodes = tree.children
-
-  protoChain(ctor.prototype, ctor.name).forEach(name => {
-    let node = nodes.find(node => node.name === name)
-
-    if (node === undefined) {
-      node = new Node(name)
-      nodes.push(node)
-    }
-
-    nodes = node.children
-  })
-})
-
-writeFileSync('ctors.json', JSON.stringify(sortTree(tree).children, null, 4))
+  parse(mod, path, blacklist)
+}

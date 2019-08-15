@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "parse-ctors": "ts-node parse-ctors.ts",
+    "parse": "npm run parse:core ; npm run parse:node",
+    "parse:core": "ts-node parse-ctors.core.ts",
+    "parse:node": "ts-node parse-ctors.node.ts",
     "start": "parcel --no-cache index.html"
   },
   "dependencies": {
