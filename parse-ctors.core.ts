@@ -1,5 +1,6 @@
-import { writeFileSync } from 'fs'
 import { parseModule, pruneTree, sortTree, trees } from './parse-ctors'
+import { writeJSON } from './utils'
+console.log(process.env.NODE_ENV);
 
 const blacklist = [
   // node globals
@@ -24,4 +25,4 @@ trees.forEach(tree => {
   sortTree(tree)
 })
 
-writeFileSync('ctors.core.json', JSON.stringify(trees, null, 4))
+writeJSON('ctors.core.json', trees, process.env.NODE_ENV === 'production')
