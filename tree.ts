@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import { parse } from './parse-ctors.web'
-import { not } from './utils'
+import { not, escapeRegExp, clamp } from './utils'
 
 // module augmentation
 declare module 'd3-hierarchy' {
@@ -32,22 +32,20 @@ type Transition = d3.Transition<any, Datum, d3.BaseType, undefined>
 // alias types
 type Circle = SVGCircleElement
 type G = SVGGElement
-type NumberPair = [number, number]
 type Path = SVGPathElement
 type Rect = SVGRectElement
 type SVG = SVGSVGElement
 type Text = SVGTextElement
 
+type NumberPair = [number, number]
+
 // controls
 const circleRadius = 8
-const fontSize = 17
-const duration = 300
+const duration = 1000
 const nodeSize: NumberPair = [4.5 * circleRadius, 300]
 const scaleExtent: NumberPair = [0.2, 2]
 
 const pad = 0.5 * circleRadius
-let width = window.innerWidth
-let height = window.innerHeight
 
 // d3 generators
 const treeGenerator = d3.tree<Datum>().nodeSize(nodeSize)
@@ -68,7 +66,19 @@ const zoomBehavior = d3
     })
   })
 
-function loadCtors(): Promise<Array<Datum>> {
+// focus node
+function focusNode(datum: DatumNode) {
+  zoomBehavior.transform(
+    $svg.transition().duration(duration),
+    d3.zoomIdentity.translate(
+      0.5 * parseInt($svg.attr('width')) - datum.x,
+      0.5 * parseInt($svg.attr('height')) - datum.y
+    )
+  )
+}
+
+// load data
+function loadData(): Promise<Array<Datum>> {
   let mode = new URLSearchParams(location.search).get('mode')
 
   if (mode === null || not(['core', 'node', 'browser'].includes(mode))) {
@@ -177,10 +187,6 @@ function render(base: DatumNode) {
     .attrs({
       dy: 4,
     })
-    .styles({
-      'font-family': 'monospace',
-      'font-size': fontSize,
-    })
     .on('mousedown', () => {
       d3.event.stopImmediatePropagation()
     })
@@ -213,11 +219,7 @@ function render(base: DatumNode) {
 
       // bring new base node into focus
       const datum = d3.select<Circle, DatumNode>(d3.event.target).datum()
-      const transition: Transition = d3.transition<Datum>().duration(duration)
-      zoomBehavior.transform(
-        $svg.transition(transition),
-        d3.zoomIdentity.translate(0.5 * width - datum.x, 0.5 * height - datum.y)
-      )
+      focusNode(datum)
     })
 
   // nodes@enter+update
@@ -275,12 +277,20 @@ function render(base: DatumNode) {
     .remove()
 }
 
+function resize() {
+  $svg.attrs({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  })
+}
+
 const $svg = d3
   .select<HTMLElement, DatumNode>(document.body)
   .append<SVG>('svg')
-  .attrs({
-    width,
-    height,
+  .styles({
+    position: 'fixed',
+    top: 0,
+    left: 0,
   })
   .on('mousedown', () => {
     const selection = window.getSelection()
@@ -297,23 +307,175 @@ const $zoomPanGroup = $svg.append<G>('g').styles({
 const $linksGroup = $zoomPanGroup.append<G>('g')
 const $nodesGroup = $zoomPanGroup.append<G>('g')
 
-zoomBehavior($svg)
-zoomBehavior.translateBy($svg, 200 - nodeSize[1], 0.5 * height)
+const maxOptions = 10
+let query = ''
+let choice = -1
+let options: Array<DatumNode> = []
+
+const $search = d3
+  .select(document.body)
+  .append('div')
+  .styles({
+    position: 'fixed',
+    top: '20px',
+    left: '20px',
+    right: '20px',
+    'z-index': '1',
+
+    'max-width': '300px',
+
+    background: 'white',
+    'border-radius': '5px',
+    'box-shadow': '0 0 0 1px lightsteelblue',
+    overflow: 'hidden',
+  })
+  .on('keydown', () => {
+    const e = d3.event as KeyboardEvent
+
+    const $options = $searchInputOptions.selectAll('div')
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+
+        choice = clamp(choice + 1, -1, $options.size() - 1)
+
+        break
+
+      case 'ArrowUp':
+        e.preventDefault()
+
+        choice = clamp(choice - 1, -1, $options.size() - 1)
+
+        break
+
+      case 'Enter':
+        e.preventDefault()
+
+        $searchInput.property('value', '')
+        $searchInput.dispatch('input')
+
+        break
+    }
+
+    if (choice === -1) {
+      $searchInput.property('value', query)
+    } else {
+      const datum = options[choice]
+      $searchInput.property('value', datum.data.path)
+      focusNode(datum)
+    }
+
+    $options.styles({
+      background: 'unset',
+      'font-weight': 'unset',
+    })
+
+    d3.select($options.nodes()[choice]).styles({
+      background: 'gainsboro',
+      'font-weight': 'bold',
+    })
+  })
+
+const $searchInput = $search
+  .append('input')
+  .attrs({
+    type: 'text',
+    placeholder: 'Search',
+  })
+  .styles({
+    width: '100%',
+    border: 'none',
+    outline: 'none',
+    padding: '10px',
+    'padding-left': '15px',
+    'box-shadow': '0 1px 0 0 whitesmoke',
+  })
+  .on('input', () => {
+    $searchInputOptions.selectAll('div').remove()
+    choice = -1
+
+    query = escapeRegExp($searchInput.property('value'))
+
+    const matches = new Set<DatumNode>()
+
+    if (query.length > 0) {
+      const patterns = [
+        // match exact
+        new RegExp('^' + query + '$', 'g'),
+
+        // match exact, case-insensitive
+        new RegExp('^' + query + '$', 'gi'),
+
+        // match starts with
+        new RegExp('^' + query, 'gi'),
+
+        // match in the middle
+        new RegExp(query, 'gi'),
+
+        // match fuzzy
+        new RegExp(query.split('').join('.{0,2}'), 'gi'),
+      ]
+
+      const data = root
+        .descendants()
+        .sort((a, b) => (a.data.path < b.data.path ? -1 : a.data.path > b.data.path ? 1 : 0))
+
+      patterns.forEach(p => {
+        if (matches.size >= maxOptions) {
+          return
+        }
+
+        data.forEach(d => {
+          if (matches.size >= maxOptions) {
+            return
+          }
+
+          if (d.data.path.match(p)) {
+            matches.add(d)
+          }
+        })
+      })
+    }
+
+    options = Array.from(matches)
+
+    options.forEach(d => {
+      $searchInputOptions
+        .append('div')
+        .text(d.data.path)
+        .styles({
+          padding: '10px',
+          'box-shadow': '0 -1px 0 0 whitesmoke',
+        })
+    })
+  })
+  .on('focus', () => {
+    $search.styles({
+      'box-shadow': '0 0 5px 3px lightsteelblue',
+    })
+  })
+  .on('blur', () => {
+    $searchInput.property('value', '')
+    $searchInput.dispatch('input')
+
+    $search.styles({
+      'box-shadow': '0 0 0 1px lightsteelblue',
+    })
+  })
+
+const $searchInputOptions = $search.append('div')
 
 // root node
 let root: DatumNode
 
-loadCtors().then(ctors => {
+loadData().then(ctors => {
   root = treeGenerator(
     d3.hierarchy({
-      path: 'ROOT',
+      path: '',
       children: ctors,
     })
   )
-
-  // save positions of root node as next base node
-  root._x = 0
-  root._y = 0
 
   // root node
   root.descendants().forEach((d, i) => {
@@ -330,17 +492,27 @@ loadCtors().then(ctors => {
     d.isCollapsed = () => not(d._children === d.children)
   })
 
+  // save positions of root node as next base node
+  root._x = 0
+  root._y = 0
+
+  resize()
   render(root)
 
-  window.addEventListener('resize', () => {
-    width = window.innerWidth
-    height = window.innerHeight
+  zoomBehavior($svg)
+  zoomBehavior.translateBy($svg, 200 - nodeSize[1], 0.5 * parseInt($svg.style('height')))
+})
 
-    $svg.attrs({
-      width,
-      height,
-    })
+window.addEventListener('resize', () => {
+  resize()
+  render(root)
+})
 
-    render(root)
-  })
+window.addEventListener('keydown', e => {
+  const isMacOS = navigator.platform.startsWith('Mac')
+  const isFindCommand = e.key === 'f' && (isMacOS ? e.metaKey : e.ctrlKey)
+  if (isFindCommand) {
+    e.preventDefault()
+    $searchInput.node()!.focus()
+  }
 })
