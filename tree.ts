@@ -54,22 +54,28 @@ const treeGenerator = d3.tree<Datum>().nodeSize(nodeSize)
 
 const linkGenerator = d3
   .linkHorizontal<DatumLink, DatumNode>()
-  .x(d => d.y)
-  .y(d => d.x)
+  .x(d => d.x)
+  .y(d => d.y)
 
 const zoomBehavior = d3
   .zoom<SVG, DatumNode>()
   .scaleExtent(scaleExtent)
   .on('zoom', () => {
-    $zoomPanGroup.attrs({
-      transform: d3.event.transform,
+    const { x, y, k } = d3.event.transform
+
+    $zoomPanGroup.styles({
+      transform: `translate(${x}px, ${y}px) scale(${k})`,
     })
   })
 
-// load ctors from anonymous iframe
 function loadCtors(): Promise<Array<Datum>> {
-  const mode = new URLSearchParams(location.search).get('mode') || 'core'
+  let mode = new URLSearchParams(location.search).get('mode')
 
+  if (mode === null || not(['core', 'node', 'browser'].includes(mode))) {
+    mode = 'core'
+  }
+
+  // load ctors from iframe
   if (mode === 'browser') {
     const iframe = document.createElement('iframe')
     iframe.style.display = 'none'
@@ -84,6 +90,13 @@ function loadCtors(): Promise<Array<Datum>> {
 // render tree
 function render(base: DatumNode) {
   treeGenerator(root)
+
+  root.descendants().forEach(d => {
+    // flip layout
+    const { x, y } = d
+    d.x = y
+    d.y = x
+  })
 
   const transition: Transition = d3.transition<Datum>().duration(duration)
 
@@ -122,10 +135,7 @@ function render(base: DatumNode) {
     .attrs({
       d: d => {
         const ancestor = d.source.ancestors().find(a => a.isCollapsed()) || root
-
-        const o = { x: ancestor.x, y: ancestor.y } as DatumNode
-
-        return linkGenerator({ source: o, target: o })
+        return linkGenerator({ source: ancestor, target: ancestor })
       },
     })
     .styles({
@@ -142,10 +152,8 @@ function render(base: DatumNode) {
   const $nodesEnter = $nodes
     .enter()
     .append<G>('g')
-    .attrs({
-      transform: `translate(${base._y}, ${base._x})`,
-    })
     .styles({
+      transform: `translate(${base._x}px, ${base._y}px)`,
       opacity: 0,
     })
     .on('dblclick', () => {
@@ -153,10 +161,15 @@ function render(base: DatumNode) {
     })
 
   // nodes@enter#labelboxes
-  $nodesEnter.append<Rect>('rect').styles({
-    fill: 'whitesmoke',
-    opacity: 0.7,
-  })
+  $nodesEnter
+    .append<Rect>('rect')
+    .styles({
+      rx: 4,
+    })
+    .styles({
+      fill: 'white',
+      opacity: 0.9,
+    })
 
   // nodes@enter#labels
   $nodesEnter
@@ -198,26 +211,22 @@ function render(base: DatumNode) {
 
       render(d)
 
-      // bring base node into focus
+      // bring new base node into focus
       const datum = d3.select<Circle, DatumNode>(d3.event.target).datum()
-      const transition: Transition = d3.transition<Datum>().duration(2 * duration)
+      const transition: Transition = d3.transition<Datum>().duration(duration)
       zoomBehavior.transform(
         $svg.transition(transition),
-        d3.zoomIdentity.translate(0.5 * width - datum.y, 0.5 * height - datum.x)
+        d3.zoomIdentity.translate(0.5 * width - datum.x, 0.5 * height - datum.y)
       )
     })
 
   // nodes@enter+update
   const $nodesEnterUpdate = $nodesEnter.merge($nodes)
 
-  $nodesEnterUpdate
-    .transition(transition)
-    .attrs({
-      transform: d => `translate(${d.y}, ${d.x})`,
-    })
-    .styles({
-      opacity: 1,
-    })
+  $nodesEnterUpdate.transition(transition).styles({
+    opacity: 1,
+    transform: d => `translate(${d.x}px, ${d.y}px)`,
+  })
 
   // nodes@enter+update#labels
   $nodesEnterUpdate
@@ -239,9 +248,9 @@ function render(base: DatumNode) {
 
     $node.select('rect').attrs({
       x: bbox.x - pad,
-      y: bbox.y,
+      y: bbox.y - 0.5 * pad,
       width: bbox.width + 2 * pad,
-      height: bbox.height + 3,
+      height: bbox.height + pad,
     })
   })
 
@@ -255,21 +264,19 @@ function render(base: DatumNode) {
   $nodes
     .exit<DatumNode>()
     .transition(transition)
-    .attrs({
+    .styles({
+      opacity: 0,
       transform: d => {
         const ancestor = d.ancestors().find(a => a.isCollapsed()) || root
 
-        return `translate(${ancestor.y}, ${ancestor.x})`
+        return `translate(${ancestor.x}px, ${ancestor.y}px)`
       },
-    })
-    .styles({
-      opacity: 0,
     })
     .remove()
 }
 
 const $svg = d3
-  .select<HTMLDivElement, DatumNode>('#root')
+  .select<HTMLElement, DatumNode>(document.body)
   .append<SVG>('svg')
   .attrs({
     width,
@@ -283,13 +290,15 @@ const $svg = d3
     }
   })
 
-const $zoomPanGroup = $svg.append<G>('g')
+const $zoomPanGroup = $svg.append<G>('g').styles({
+  'will-change': 'transform',
+})
 
 const $linksGroup = $zoomPanGroup.append<G>('g')
 const $nodesGroup = $zoomPanGroup.append<G>('g')
 
 zoomBehavior($svg)
-zoomBehavior.translateBy($svg, 0, 0.5 * height)
+zoomBehavior.translateBy($svg, 200 - nodeSize[1], 0.5 * height)
 
 // root node
 let root: DatumNode
