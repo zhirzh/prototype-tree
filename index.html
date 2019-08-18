@@ -12,7 +12,7 @@
         box-sizing: border-box;
 
         font-family: monospace;
-        font-size: 18px;
+        font-size: 16px;
       }
 
       body {
@@ -25,19 +25,22 @@
         left: 0;
       }
 
-      #tree path {
+      /* links */
+      #tree .links {
         fill: none;
         stroke: lightgray;
         stroke-width: 2;
       }
 
-      #tree path.focused {
+      /* links to focused nodes */
+      #tree .links.focused {
         stroke: tomato;
       }
 
+      /* nodes */
       #tree .nodes circle {
         cursor: pointer;
-        fill: skyblue;
+        fill: lightskyblue;
         stroke: none;
       }
 
@@ -59,7 +62,7 @@
       /* collapsed nodes */
       #tree .nodes.collapsed circle {
         fill: whitesmoke;
-        stroke: skyblue;
+        stroke: lightskyblue;
       }
 
       #tree .nodes.collapsed text {
@@ -70,9 +73,10 @@
       /* focused nodes */
       #tree .nodes.focused circle {
         stroke: orangered;
-        fill: skyblue;
+        fill: lightskyblue;
       }
 
+      /* search */
       #search {
         position: fixed;
         top: 20px;
@@ -81,32 +85,43 @@
         z-index: 1;
 
         max-width: 300px;
+        max-height: calc(100% - 3 * 20px);
 
         background: white;
         border-radius: 2px;
-        box-shadow: 0px 0px 0px 1px lightsteelblue;
-        overflow: hidden;
+        box-shadow: 0px 0px 0px 1px lightblue;
+        overflow-y: auto;
       }
 
       #search:focus-within {
-        box-shadow: 0 0 5px 3px lightsteelblue;
+        box-shadow: 0 0 5px 2px lightblue;
       }
 
-      #searchInput {
+      #search input {
         width: 100%;
-        padding: 5px 5px 5px 10px;
+        padding: 10px;
 
         border: none;
         box-shadow: 0px 1px 0px 0px whitesmoke;
         outline: none;
       }
 
-      #searchOptions div {
-        padding: 5px 10px;
+      #search div {
+        padding: 10px;
 
-        box-shadow: 0 -1px 0 0 whitesmoke;
+        box-shadow: 10px -1px 0 0 whitesmoke;
+        cursor: pointer;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      #search div:hover {
+        background: gainsboro;
+      }
+
+      #search div.choice {
+        background: gainsboro;
+        font-weight: bold;
       }
     </style>
   </head>
@@ -115,8 +130,7 @@
     <svg id="tree"></svg>
 
     <div id="search">
-      <input type="text" placeholder="Search" id="searchInput" />
-      <div id="searchOptions"></div>
+      <input type="text" placeholder="Search" />
     </div>
   </body>
 

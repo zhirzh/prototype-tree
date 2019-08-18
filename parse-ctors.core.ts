@@ -1,6 +1,5 @@
 import { parseModule, pruneTree, sortTree, trees } from './parse-ctors'
 import { writeJSON } from './utils'
-console.log(process.env.NODE_ENV);
 
 const blacklist = [
   // node globals

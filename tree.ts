@@ -1,7 +1,6 @@
 import * as d3 from 'd3'
-import 'd3-selection-multi'
 import { parse } from './parse-ctors.web'
-import { not, escapeRegExp, clamp, className } from './utils'
+import { clamp, className, escapeRegExp, not } from './utils'
 
 // MODULE AUGMENTATION
 declare module 'd3-hierarchy' {
@@ -27,11 +26,12 @@ type Datum = {
 
 type DatumLink = d3.HierarchyPointLink<Datum>
 type DatumNode = d3.HierarchyPointNode<Datum>
-type Transition = d3.Transition<any, Datum, d3.BaseType, undefined>
 
 // ALIAS TYPES
 type Circle = SVGCircleElement
+type Div = HTMLDivElement
 type G = SVGGElement
+type Input = HTMLInputElement
 type Path = SVGPathElement
 type Rect = SVGRectElement
 type SVG = SVGSVGElement
@@ -47,6 +47,8 @@ const scaleExtent: NumberPair = [0.2, 2]
 
 const pad = 0.5 * circleRadius
 
+const maxSearchOptions = 20
+
 // D3 GENERATORS
 const treeGenerator = d3.tree<Datum>().nodeSize(nodeSize)
 
@@ -61,14 +63,14 @@ const zoomBehavior = d3
   .on('zoom', () => {
     const { x, y, k } = d3.event.transform
 
-    $zoomPanGroup.style('transform', `translate(${x}px, ${y}px) scale(${k})`)
+    $zoomPanGroup.attr('transform', `translate(${x}, ${y}) scale(${k})`)
   })
 
 // PROCESSES
 
 // focus node
 function focusNode(datum: DatumNode) {
-  focusedNode = datum
+  focusedNodes = datum.ancestors()
 
   zoomBehavior.transform(
     $tree.transition().duration(1.5 * duration),
@@ -78,7 +80,7 @@ function focusNode(datum: DatumNode) {
     )
   )
 
-  render(root)
+  renderTree(root)
 }
 
 // load data
@@ -102,7 +104,7 @@ function loadData(): Promise<Array<Datum>> {
 }
 
 // render tree
-function render(base: DatumNode) {
+function renderTree(base: DatumNode) {
   treeGenerator(root)
 
   root.descendants().forEach(d => {
@@ -112,53 +114,53 @@ function render(base: DatumNode) {
     d.y = x
   })
 
-  const transition: Transition = d3.transition<Datum>().duration(duration)
-
   // links
   const $links = $linksGroup
     .selectAll<Path, DatumLink>('path')
-    .data(root.links().slice(2), d => String(d.target.id))
+    .data(root.links().filter(l => l.source.depth > 0), l => String(l.target.id))
 
+  // links@enter
   $links
     .enter()
     .append<Path>('path')
-    .attrs({
-      d: () => {
-        const o = { x: base._x, y: base._y } as DatumNode
-        return linkGenerator({ source: o, target: o })
-      },
+    .attr('stroke-opacity', 0)
+    .attr('d', () => {
+      const o = { x: base._x, y: base._y } as DatumNode
+      return linkGenerator({ source: o, target: o })
     })
-    .style('opacity', 0)
-    .merge($links)
-    .attr('class', d => className([d.target.descendants().includes(focusedNode) && 'focused']))
-    .transition(transition)
-    .attr('d', linkGenerator)
-    .style('opacity', 1)
 
+    // links@enter+update
+    .merge($links)
+    .attr('class', l => className(['links', focusedNodes.includes(l.target) && 'focused']))
+    .transition()
+    .duration(duration)
+    .attr('stroke-opacity', 1)
+    .attr('d', linkGenerator)
+
+  // links@exit
   $links
     .exit<DatumLink>()
-    .transition(transition)
-    .attr('d', d => {
-      const ancestor = d.source.ancestors().find(a => a.isCollapsed()) || root
+    .transition()
+    .duration(duration)
+    .attr('stroke-opacity', 0)
+    .attr('d', l => {
+      const ancestor = l.source.ancestors().find(a => a.isCollapsed()) || root
       return linkGenerator({ source: ancestor, target: ancestor })
     })
-    .style('opacity', 0)
     .remove()
 
   // nodes
   const $nodes = $nodesGroup
     .selectAll<G, DatumNode>('g')
-    .data(root.descendants().slice(1), d => String(d.id))
+    .data(root.descendants().filter(d => d.depth > 0), d => String(d.id))
 
   // nodes@enter
   const $nodesEnter = $nodes
     .enter()
     .append<G>('g')
     .attr('class', 'nodes')
-    .styles({
-      opacity: 0,
-      transform: `translate(${base._x}px, ${base._y}px)`,
-    })
+    .attr('fill-opacity', 0)
+    .attr('transform', `translate(${base._x}, ${base._y})`)
     .on('dblclick', () => {
       d3.event.stopImmediatePropagation()
     })
@@ -178,7 +180,7 @@ function render(base: DatumNode) {
   $nodesEnter
     .append<Circle>('circle')
     .attr('r', circleRadius)
-    .style('stroke-width', circleRadius / 2)
+    .attr('stroke-width', circleRadius / 2)
     .on('click', d => {
       if (d3.event.shiftKey && d.parent && d.parent.children) {
         d.parent.children.forEach(child => {
@@ -193,7 +195,7 @@ function render(base: DatumNode) {
       d._x = d.x
       d._y = d.y
 
-      render(d)
+      renderTree(d)
 
       // bring new base node into focus
       const datum = d3.select<Circle, DatumNode>(d3.event.target).datum()
@@ -207,19 +209,23 @@ function render(base: DatumNode) {
       'nodes',
       d.isLeaf && 'leaf',
       d.isCollapsed() && 'collapsed',
-      d.descendants().includes(focusedNode) && 'focused',
+      focusedNodes.includes(d) && 'focused',
     ])
   )
 
-  $nodesEnterUpdate.transition(transition).styles({
-    opacity: 1,
-    transform: d => `translate(${d.x}px, ${d.y}px)`,
-  })
+  $nodesEnterUpdate
+    .transition()
+    .duration(duration)
+    .attr('fill-opacity', 1)
+    .attr('transform', d => `translate(${d.x}, ${d.y})`)
 
   // nodes@enter+update#labels
   $nodesEnterUpdate
     .selectAll<Text, DatumNode>('text')
-    .text(d => d.data.path + (d.isCollapsed() ? ` #${d.totalDescendants}` : ''))
+    .text(
+      d =>
+        d.data.path + (d.isCollapsed() ? ` #${d._children!.length} | #${d.totalDescendants}` : '')
+    )
     .attr('dx', d => (circleRadius + pad) * (d.isLeaf || d.isCollapsed() ? 1 : -1))
 
   // nodes@enter+update#labelboxes
@@ -228,12 +234,12 @@ function render(base: DatumNode) {
     const text = $node.select<Text>('text').node()!
     const bbox = text.getBBox()
 
-    $node.select('rect').attrs({
-      x: bbox.x - pad,
-      y: bbox.y - 0.5 * pad,
-      width: bbox.width + 2 * pad,
-      height: bbox.height + pad,
-    })
+    $node
+      .select('rect')
+      .attr('x', bbox.x - pad)
+      .attr('y', bbox.y - 0.5 * pad)
+      .attr('width', bbox.width + 2 * pad)
+      .attr('height', bbox.height + pad)
   })
 
   // nodes@enter+update#circles
@@ -242,50 +248,188 @@ function render(base: DatumNode) {
   // nodes@exit
   $nodes
     .exit<DatumNode>()
-    .transition(transition)
-    .styles({
-      opacity: 0,
-      transform: d => {
-        const ancestor = d.ancestors().find(a => a.isCollapsed()) || root
+    .transition()
+    .duration(duration)
+    .attr('fill-opacity', 0)
+    .attr('transform', d => {
+      const ancestor = d.ancestors().find(a => a.isCollapsed()) || root
 
-        return `translate(${ancestor.x}px, ${ancestor.y}px)`
-      },
+      return `translate(${ancestor.x}, ${ancestor.y})`
     })
     .remove()
 }
 
-// resize svg
-function resize() {
-  $tree.attrs({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  })
+// render search
+function renderSearch() {
+  let searchOptionsData: Array<DatumNode> = []
+
+  if (searchQuery.length > 0) {
+    const data = root.descendants()
+
+    const patterns = [
+      // match exact
+      new RegExp('^' + searchQuery + '$', 'i'),
+
+      // match starts with
+      new RegExp('^' + searchQuery, 'i'),
+
+      // match middle
+      new RegExp(searchQuery, 'i'),
+
+      // match fuzzy
+      new RegExp(searchQuery.split('').join('.{0,2}'), 'i'),
+    ]
+
+    const matches = patterns.map(p => data.filter(d => d.data.path.match(p))).flat()
+    const uniqueMatches = Array.from(new Set(matches))
+    searchOptionsData = uniqueMatches
+      .slice(0, maxSearchOptions)
+      .sort((a, b) => (a.data.path < b.data.path ? -1 : a.data.path > b.data.path ? 1 : 0))
+  }
+
+  const $searchOptions = $search
+    .selectAll<Div, DatumNode>('div')
+    .data(searchOptionsData, d => String(d.id))
+
+  const totalChoices = $searchOptions.size()
+
+  searchChoice = clamp(searchChoice, -1, totalChoices - 1)
+
+  // search-options@enter
+  $searchOptions
+    .enter()
+    .append('div')
+
+    // search-options@enter+update
+    .merge($searchOptions)
+    .attr('class', (_, i) => className([i === searchChoice && 'choice']))
+    .attr('title', d => d.data.path)
+    .text(d => d.data.path)
+
+  // search-options@exit
+  $searchOptions.exit().remove()
+
+  if (searchChoice === -1) {
+    $searchInput.property('value', searchQuery)
+
+    $searchInput.node()!.scrollIntoView(true)
+  } else {
+    const datum = searchOptionsData[searchChoice]
+    $searchInput.property('value', datum.data.path)
+    focusNode(datum)
+
+    $searchOptions.nodes()[searchChoice].scrollIntoView(false)
+  }
 }
 
-// STATE
-const $tree = d3.select<SVG, DatumNode>('#tree').on('mousedown', () => {
-  const selection = window.getSelection()
+// resize svg
+function resize() {
+  $tree.attr('width', window.innerWidth).attr('height', window.innerHeight)
+}
 
-  if (selection) {
-    selection.removeAllRanges()
-  }
-})
+// D3 SELECTIONS
+const $tree = d3
+  .select<SVG, DatumNode>('#tree')
+  .on('mousedown', () => {
+    const selection = window.getSelection()
+
+    if (selection) {
+      selection.removeAllRanges()
+    }
+  })
+  .call(zoomBehavior)
 
 const $zoomPanGroup = $tree.append<G>('g').style('will-change', 'transform')
+
 const $linksGroup = $zoomPanGroup.append<G>('g')
 const $nodesGroup = $zoomPanGroup.append<G>('g')
 
-const maxOptions = 10
-let query = ''
-let choice = -1
-let options: Array<DatumNode> = []
+const $search = d3
+  .select<Div, never>('#search')
+  .on('keydown', () => {
+    const e = d3.event as KeyboardEvent
 
-let focusedNode: DatumNode
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
 
-// root node
-let root: DatumNode
+        searchChoice += 1
+
+        break
+
+      case 'ArrowUp':
+        e.preventDefault()
+
+        searchChoice -= 1
+
+        break
+
+      case 'Enter':
+        e.preventDefault()
+
+        searchQuery = ''
+
+        break
+
+      case 'Escape':
+        e.preventDefault()
+
+        searchQuery = ''
+        searchChoice = -1
+
+        break
+    }
+
+    renderSearch()
+  })
+  .on('mousedown', () => {
+    const e = d3.event as MouseEvent
+
+    searchChoice = $search
+      .selectAll<Div, DatumNode>('div')
+      .nodes()
+      .indexOf(e.target as Div)
+  })
+  .on('mouseup', () => {
+    renderSearch()
+
+    searchQuery = ''
+    searchChoice = -1
+
+    renderSearch()
+  })
+
+const $searchInput = $search.select<Input>('input').on('input', () => {
+  searchQuery = escapeRegExp($searchInput.property('value'))
+  searchChoice = -1
+
+  renderSearch()
+})
+
+// STATE
+let focusedNodes: Array<DatumNode> = []
+
+let searchQuery = ''
+let searchChoice = -1
+
+let root: DatumNode // root node
 
 // LISTENERS
+window.addEventListener('resize', () => {
+  resize()
+  renderTree(root)
+})
+
+window.addEventListener('keydown', e => {
+  const isMacOS = navigator.platform.startsWith('Mac')
+  const isFindCommand = e.key === 'f' && (isMacOS ? e.metaKey : e.ctrlKey)
+  if (isFindCommand) {
+    e.preventDefault()
+    $searchInput.node()!.focus()
+  }
+})
+
+// MAIN
 loadData().then(ctors => {
   root = treeGenerator(
     d3.hierarchy({
@@ -314,122 +458,7 @@ loadData().then(ctors => {
   root._y = 0
 
   resize()
-  render(root)
+  renderTree(root)
 
-  zoomBehavior($tree)
-  zoomBehavior.translateBy($tree, 200 - nodeSize[1], 0.5 * parseInt($tree.style('height')))
-})
-
-window.addEventListener('resize', () => {
-  resize()
-  render(root)
-})
-
-window.addEventListener('keydown', e => {
-  const isMacOS = navigator.platform.startsWith('Mac')
-  const isFindCommand = e.key === 'f' && (isMacOS ? e.metaKey : e.ctrlKey)
-  if (isFindCommand) {
-    e.preventDefault()
-    $searchInput.node()!.focus()
-  }
-})
-
-const $search = d3.select<HTMLDivElement, never>('#search').on('keydown', () => {
-  const e = d3.event as KeyboardEvent
-
-  const $options = $searchInputOptions.selectAll<HTMLDivElement, DatumNode>('div')
-
-  switch (e.key) {
-    case 'ArrowDown':
-      e.preventDefault()
-
-      choice = clamp(choice + 1, -1, $options.size() - 1)
-
-      break
-
-    case 'ArrowUp':
-      e.preventDefault()
-
-      choice = clamp(choice - 1, -1, $options.size() - 1)
-
-      break
-
-    case 'Enter':
-    case 'Escape':
-      e.preventDefault()
-
-      $searchInput.property('value', '')
-      $searchInput.dispatch('input')
-
-      break
-  }
-
-  if (choice === -1) {
-    $searchInput.property('value', query)
-  } else {
-    const datum = options[choice]
-    $searchInput.property('value', datum.data.path)
-    focusNode(datum)
-  }
-
-  $options.styles({
-    background: (_, i) => (i === choice ? 'gainsboro' : 'none'),
-    'font-weight': (_, i) => (i === choice ? 'bold' : 'normal'),
-  })
-})
-
-const $searchInputOptions = $search.select('#searchOptions')
-
-const $searchInput = $search.select<HTMLInputElement>('#searchInput').on('input', () => {
-  $searchInputOptions.selectAll('div').remove()
-  choice = -1
-
-  query = escapeRegExp($searchInput.property('value'))
-
-  const matches = new Set<DatumNode>()
-
-  if (query.length > 0) {
-    const patterns = [
-      // match exact
-      new RegExp('^' + query + '$', 'g'),
-
-      // match exact, case-insensitive
-      new RegExp('^' + query + '$', 'gi'),
-
-      // match starts with
-      new RegExp('^' + query, 'gi'),
-
-      // match in the middle
-      new RegExp(query, 'gi'),
-
-      // match fuzzy
-      new RegExp(query.split('').join('.{0,2}'), 'gi'),
-    ]
-
-    const data = root
-      .descendants()
-      .sort((a, b) => (a.data.path < b.data.path ? -1 : a.data.path > b.data.path ? 1 : 0))
-
-    patterns.forEach(p => {
-      if (matches.size >= maxOptions) {
-        return
-      }
-
-      data.forEach(d => {
-        if (matches.size >= maxOptions) {
-          return
-        }
-
-        if (d.data.path.match(p)) {
-          matches.add(d)
-        }
-      })
-    })
-  }
-
-  options = Array.from(matches)
-
-  options.forEach(d => {
-    $searchInputOptions.append('div').text(d.data.path)
-  })
+  zoomBehavior.translateBy($tree, 200 - nodeSize[1], 0.5 * Number($tree.attr('height')))
 })
