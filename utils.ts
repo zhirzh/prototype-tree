@@ -4,6 +4,10 @@ export function clamp(x: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(x, hi))
 }
 
+export function className(classNames: Array<string | false>): string {
+  return classNames.filter(Boolean).join(' ')
+}
+
 export function escapeRegExp(string: string): string {
   return string.trim().replace(/[.*+?^${}()|[\]\\]/g, '')
 }
