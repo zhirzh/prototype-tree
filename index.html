@@ -25,15 +25,19 @@
         left: 0;
       }
 
-      #tree path.links {
+      #tree path {
         fill: none;
         stroke: lightgray;
         stroke-width: 2;
       }
 
+      #tree path.focused {
+        stroke: tomato;
+      }
+
       #tree .nodes circle {
         cursor: pointer;
-        fill: deepskyblue;
+        fill: skyblue;
         stroke: none;
       }
 
@@ -47,18 +51,26 @@
         opacity: 0.9;
       }
 
+      /* leaf nodes */
       #tree .nodes.leaf text {
         text-anchor: start;
       }
 
+      /* collapsed nodes */
       #tree .nodes.collapsed circle {
         fill: whitesmoke;
-        stroke: deepskyblue;
+        stroke: skyblue;
       }
 
       #tree .nodes.collapsed text {
         font-style: italic;
         text-anchor: start;
+      }
+
+      /* focused nodes */
+      #tree .nodes.focused circle {
+        stroke: orangered;
+        fill: skyblue;
       }
 
       #search {

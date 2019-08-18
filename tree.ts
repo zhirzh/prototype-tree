@@ -3,7 +3,7 @@ import 'd3-selection-multi'
 import { parse } from './parse-ctors.web'
 import { not, escapeRegExp, clamp, className } from './utils'
 
-// module augmentation
+// MODULE AUGMENTATION
 declare module 'd3-hierarchy' {
   interface HierarchyNode<Datum> {
     _children: this['children']
@@ -19,7 +19,7 @@ declare module 'd3-hierarchy' {
   }
 }
 
-// domain types
+// DOMAIN TYPES
 type Datum = {
   path: string
   children: Array<Datum>
@@ -29,7 +29,7 @@ type DatumLink = d3.HierarchyPointLink<Datum>
 type DatumNode = d3.HierarchyPointNode<Datum>
 type Transition = d3.Transition<any, Datum, d3.BaseType, undefined>
 
-// alias types
+// ALIAS TYPES
 type Circle = SVGCircleElement
 type G = SVGGElement
 type Path = SVGPathElement
@@ -39,7 +39,7 @@ type Text = SVGTextElement
 
 type NumberPair = [number, number]
 
-// controls
+// CONTROLS
 const circleRadius = 8
 const duration = 300
 const nodeSize: NumberPair = [4.5 * circleRadius, 300]
@@ -47,7 +47,7 @@ const scaleExtent: NumberPair = [0.2, 2]
 
 const pad = 0.5 * circleRadius
 
-// d3 generators
+// D3 GENERATORS
 const treeGenerator = d3.tree<Datum>().nodeSize(nodeSize)
 
 const linkGenerator = d3
@@ -64,15 +64,21 @@ const zoomBehavior = d3
     $zoomPanGroup.style('transform', `translate(${x}px, ${y}px) scale(${k})`)
   })
 
+// PROCESSES
+
 // focus node
 function focusNode(datum: DatumNode) {
+  focusedNode = datum
+
   zoomBehavior.transform(
-    $tree.transition().duration(duration),
+    $tree.transition().duration(1.5 * duration),
     d3.zoomIdentity.translate(
       0.5 * parseInt($tree.attr('width')) - datum.x,
       0.5 * parseInt($tree.attr('height')) - datum.y
     )
   )
+
+  render(root)
 }
 
 // load data
@@ -117,7 +123,6 @@ function render(base: DatumNode) {
     .enter()
     .append<Path>('path')
     .attrs({
-      class: 'links',
       d: () => {
         const o = { x: base._x, y: base._y } as DatumNode
         return linkGenerator({ source: o, target: o })
@@ -125,6 +130,7 @@ function render(base: DatumNode) {
     })
     .style('opacity', 0)
     .merge($links)
+    .attr('class', d => className([d.target.descendants().includes(focusedNode) && 'focused']))
     .transition(transition)
     .attr('d', linkGenerator)
     .style('opacity', 1)
@@ -201,6 +207,7 @@ function render(base: DatumNode) {
       'nodes',
       d.isLeaf && 'leaf',
       d.isCollapsed() && 'collapsed',
+      d.descendants().includes(focusedNode) && 'focused',
     ])
   )
 
@@ -247,6 +254,7 @@ function render(base: DatumNode) {
     .remove()
 }
 
+// resize svg
 function resize() {
   $tree.attrs({
     width: window.innerWidth,
@@ -254,6 +262,7 @@ function resize() {
   })
 }
 
+// STATE
 const $tree = d3.select<SVG, DatumNode>('#tree').on('mousedown', () => {
   const selection = window.getSelection()
 
@@ -263,7 +272,6 @@ const $tree = d3.select<SVG, DatumNode>('#tree').on('mousedown', () => {
 })
 
 const $zoomPanGroup = $tree.append<G>('g').style('will-change', 'transform')
-
 const $linksGroup = $zoomPanGroup.append<G>('g')
 const $nodesGroup = $zoomPanGroup.append<G>('g')
 
@@ -272,11 +280,61 @@ let query = ''
 let choice = -1
 let options: Array<DatumNode> = []
 
-const $search = d3.select<HTMLDivElement, never>('#search')
-const $searchInput = $search.select<HTMLInputElement>('#searchInput')
-const $searchInputOptions = $search.select('#searchOptions')
+let focusedNode: DatumNode
 
-$search.on('keydown', () => {
+// root node
+let root: DatumNode
+
+// LISTENERS
+loadData().then(ctors => {
+  root = treeGenerator(
+    d3.hierarchy({
+      path: '',
+      children: ctors,
+    })
+  )
+
+  // root node
+  root.descendants().forEach((d, i) => {
+    // @ts-ignore
+    d.id = i
+
+    // save children for recovering collapsed nodes
+    d._children = d.children
+
+    d.isLeaf = d._children === undefined
+
+    d.totalDescendants = d.isLeaf ? 0 : d.descendants().length - 1
+
+    d.isCollapsed = () => not(d._children === d.children)
+  })
+
+  // save positions of root node as next base node
+  root._x = 0
+  root._y = 0
+
+  resize()
+  render(root)
+
+  zoomBehavior($tree)
+  zoomBehavior.translateBy($tree, 200 - nodeSize[1], 0.5 * parseInt($tree.style('height')))
+})
+
+window.addEventListener('resize', () => {
+  resize()
+  render(root)
+})
+
+window.addEventListener('keydown', e => {
+  const isMacOS = navigator.platform.startsWith('Mac')
+  const isFindCommand = e.key === 'f' && (isMacOS ? e.metaKey : e.ctrlKey)
+  if (isFindCommand) {
+    e.preventDefault()
+    $searchInput.node()!.focus()
+  }
+})
+
+const $search = d3.select<HTMLDivElement, never>('#search').on('keydown', () => {
   const e = d3.event as KeyboardEvent
 
   const $options = $searchInputOptions.selectAll<HTMLDivElement, DatumNode>('div')
@@ -320,7 +378,9 @@ $search.on('keydown', () => {
   })
 })
 
-$searchInput.on('input', () => {
+const $searchInputOptions = $search.select('#searchOptions')
+
+const $searchInput = $search.select<HTMLInputElement>('#searchInput').on('input', () => {
   $searchInputOptions.selectAll('div').remove()
   choice = -1
 
@@ -372,55 +432,4 @@ $searchInput.on('input', () => {
   options.forEach(d => {
     $searchInputOptions.append('div').text(d.data.path)
   })
-})
-
-// root node
-let root: DatumNode
-
-loadData().then(ctors => {
-  root = treeGenerator(
-    d3.hierarchy({
-      path: '',
-      children: ctors,
-    })
-  )
-
-  // root node
-  root.descendants().forEach((d, i) => {
-    // @ts-ignore
-    d.id = i
-
-    // save children for recovering collapsed nodes
-    d._children = d.children
-
-    d.isLeaf = d._children === undefined
-
-    d.totalDescendants = d.isLeaf ? 0 : d.descendants().length - 1
-
-    d.isCollapsed = () => not(d._children === d.children)
-  })
-
-  // save positions of root node as next base node
-  root._x = 0
-  root._y = 0
-
-  resize()
-  render(root)
-
-  zoomBehavior($tree)
-  zoomBehavior.translateBy($tree, 200 - nodeSize[1], 0.5 * parseInt($tree.style('height')))
-})
-
-window.addEventListener('resize', () => {
-  resize()
-  render(root)
-})
-
-window.addEventListener('keydown', e => {
-  const isMacOS = navigator.platform.startsWith('Mac')
-  const isFindCommand = e.key === 'f' && (isMacOS ? e.metaKey : e.ctrlKey)
-  if (isFindCommand) {
-    e.preventDefault()
-    $searchInput.node()!.focus()
-  }
 })
